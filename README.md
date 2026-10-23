@@ -19,3 +19,7 @@
 - Trang chính sách quyền riêng tư.
 - Xác nhận của bệnh viện về việc ghi tên "Bệnh viện Đại học Y Hà Nội".
 - Hợp đồng thu hộ với phòng khám có giấy phép khám từ xa.
+
+## Trang đặt lịch (dat-lich/)
+Nút "Đặt lịch" mở trang dat-lich/. Đây vẫn là BẢN MẪU: lịch chỉ lưu trên trình duyệt của từng người, nên lịch khách đặt KHÔNG đến được bác sĩ và một khung giờ có thể bị hai người đặt. Cần thêm máy chủ lưu lịch trước khi nhận khách thật.
+Khi upload lên GitHub, kéo cả thư mục dat-lich vào cùng 4 file kia.

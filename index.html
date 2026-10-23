@@ -175,13 +175,6 @@ footer .wrap { display: grid; gap: 8px; }
   .glow { animation: glow 5s ease-in-out infinite; transform-origin: center; }
   @keyframes glow { 50% { opacity: 0.55; } }
 }
-.paybox { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; display: grid; grid-template-columns: 1fr auto; gap: 16px 24px; align-items: start; }
-@media (max-width: 640px) { .paybox { grid-template-columns: 1fr; } }
-.paybox dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; font-size: 0.95rem; }
-.paybox dt { color: var(--muted); }
-.paybox dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; min-width: 0; overflow-wrap: anywhere; }
-.paybox .acc { font-size: 1.2rem; letter-spacing: 0.04em; }
-.paybox p { font-size: 0.88rem; color: var(--muted); grid-column: 1 / -1; }
 .copy { border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 8px; padding: 8px 14px; font: inherit; font-size: 0.9rem; cursor: pointer; }
 </style>
 
@@ -197,7 +190,7 @@ footer .wrap { display: grid; gap: 8px; }
       <a class="hide-sm" href="#bac-si">Bác sĩ</a>
       <a class="hide-sm" href="#quy-trinh">Quy trình</a>
       <a class="hide-sm" href="#bang-gia">Bảng giá</a>
-      <a class="btn small" href="https://zalo.me/SO_ZALO_CUA_ANH" target="_blank" rel="noopener">Đặt lịch</a>
+      <a class="btn small" href="dat-lich/">Đặt lịch</a>
     </div>
   </div>
 </nav>
@@ -209,7 +202,7 @@ footer .wrap { display: grid; gap: 8px; }
       <h1>2 giờ sáng vẫn chưa ngủ được? Nói chuyện với bác sĩ, ngay tại phòng của bạn.</h1>
       <p class="lead">Khám qua video với ThS. BS. Nguyễn Thị Thu Hằng, bác sĩ nội trú Tâm thần của Đại học Y Hà Nội. Không phải ngồi chờ ở bệnh viện, không lo gặp người quen, chỉ cần tai nghe và một góc riêng.</p>
       <div style="display:flex;flex-wrap:wrap;gap:12px">
-        <a class="btn" href="https://zalo.me/SO_ZALO_CUA_ANH" target="_blank" rel="noopener">Đặt lịch qua Zalo</a>
+        <a class="btn" href="dat-lich/">Chọn giờ khám</a>
         <a class="btn line" href="#quy-trinh" style="color:var(--night-ink);border-color:color-mix(in srgb,var(--night-ink) 35%,transparent)">Xem buổi khám diễn ra thế nào</a>
       </div>
       <div class="hero-meta"><span>Bác sĩ nữ, gần tuổi bạn</span><span>Đang làm ở bệnh viện tuyến đầu</span><span>Khám sau giờ làm và Chủ nhật</span></div>
@@ -369,7 +362,7 @@ footer .wrap { display: grid; gap: 8px; }
     <div class="head">
       <span class="eyebrow">Bảng giá</span>
       <h2>Rõ ràng trước khi bạn đặt</h2>
-      <p class="lead">Giá trọn gói cho mỗi buổi. Bạn được báo đúng số tiền trước khi chuyển khoản.</p>
+      <p class="lead">Giá trọn gói cho mỗi buổi. Thanh toán trước 100% khi đặt lịch để giữ giờ khám.</p>
     </div>
     <div class="prices">
       <div class="price main"><span class="badge">Bắt đầu từ đây</span><h3>Khám lần đầu</h3><div class="amt">350.000 đ <small>/ 45 phút</small></div><ul><li>Hỏi chuyện và đánh giá đầy đủ</li><li>Giải thích và lập kế hoạch</li><li>Đơn thuốc điện tử nếu cần</li></ul></div>
@@ -377,19 +370,6 @@ footer .wrap { display: grid; gap: 8px; }
       <div class="price"><h3>Gói theo dõi 3 tháng</h3><div class="amt">850.000 đ <small>/ 4 buổi</small></div><ul><li>1 lần khám đầu và 3 lần tái khám</li><li>Tiết kiệm 100.000 đ</li><li>Ưu tiên chọn giờ</li></ul></div>
     </div>
     <p class="note">Khám buổi tối thứ Hai, Tư, Sáu và sáng Chủ nhật. Đổi lịch miễn phí 1 lần nếu báo trước 24 giờ.</p>
-    <div class="paybox" id="thanh-toan">
-      <div style="display:grid;gap:10px;min-width:0">
-        <h3>Thanh toán bằng chuyển khoản</h3>
-        <dl>
-          <dt>Ngân hàng</dt><dd>VIB</dd>
-          <dt>Số tài khoản</dt><dd class="acc" id="stk">012323456</dd>
-          <dt>Chủ tài khoản</dt><dd>NGUYEN DUY HIEN</dd>
-          <dt>Nội dung</dt><dd>THU HO TAMAN + mã khám <span style="font-weight:400;color:var(--muted)">(ví dụ THU HO TAMAN TA1234)</span></dd>
-        </dl>
-      </div>
-      <button class="copy" type="button" id="copy-stk">Sao chép số tài khoản</button>
-      <p>Chỉ chuyển khoản sau khi giờ khám đã được xác nhận qua Zalo. Mã khám được gửi cho bạn lúc xác nhận. Nội dung chuyển khoản không cần ghi lý do khám.</p>
-    </div>
   </div>
 </section>
 
@@ -442,7 +422,7 @@ footer .wrap { display: grid; gap: 8px; }
   <div class="wrap">
     <h2>Bạn đã chịu đựng đủ lâu rồi.</h2>
     <p>Chọn một khung giờ tối nay hoặc cuối tuần. Bốn mươi lăm phút có thể là khởi đầu của những đêm ngủ ngon hơn.</p>
-    <a class="btn" href="https://zalo.me/SO_ZALO_CUA_ANH" target="_blank" rel="noopener">Đặt lịch qua Zalo</a>
+    <a class="btn" href="dat-lich/">Chọn giờ khám</a>
   </div>
 </section>
 
@@ -453,17 +433,6 @@ footer .wrap { display: grid; gap: 8px; }
   </div>
 </footer>
 
-<script>
-(function () {
-  var b = document.getElementById('copy-stk'); if (!b) return;
-  b.addEventListener('click', function () {
-    var t = document.getElementById('stk').textContent.trim();
-    var done = function () { b.textContent = 'Đã sao chép'; setTimeout(function () { b.textContent = 'Sao chép số tài khoản'; }, 2000); };
-    var fallback = function () { try { var r = document.createRange(); r.selectNodeContents(document.getElementById('stk')); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); b.textContent = 'Đã chọn, bấm giữ để sao chép'; } catch (e) {} };
-    try { navigator.clipboard.writeText(t).then(done, fallback); } catch (e) { fallback(); }
-  });
-})();
-</script>
 
 </body>
 </html>
