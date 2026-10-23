@@ -1,4 +1,4 @@
-# Tâm An Online: đưa web lên Vercel
+# Tâm Trí Online: đưa web lên Vercel
 
 ## Trước khi đưa lên
 1. Mở `index.html`, tìm `SO_ZALO_CUA_ANH` (3 chỗ) và thay bằng số Zalo, ví dụ `https://zalo.me/0905123456`.

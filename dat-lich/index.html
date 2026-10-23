@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<title>Lịch khám Tâm An</title>
+<title>Lịch khám Tâm Trí</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Lora:wght@500;600&display=swap">
 <style>
@@ -171,15 +171,17 @@ td.num, th.num { text-align: right; }
 .toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-size: 0.9rem; max-width: calc(100% - 32px); z-index: 20; }
 footer { padding-block: 0 40px; font-size: 0.8rem; color: var(--muted); }
 @media (prefers-reduced-motion: no-preference) { .slot, .day, .btn { transition: border-color .15s, background-color .15s; } }
+/* Khách chỉ thấy phần đặt lịch; phần Bác sĩ, Quản trị mở bằng ?nhanvien */
+body:not(.staff) .staff-only { display: none !important; }
 </style>
 
 <div class="topbar">
   <div class="wrap">
     <div>
-      <span class="demo-tag">Bản mẫu · dữ liệu giả</span>
-      <div style="font-weight:600">Lịch khám Tâm An</div>
+      <span class="demo-tag staff-only">Bản mẫu · dữ liệu giả</span>
+      <div style="font-weight:600">Lịch khám Tâm Trí</div>
     </div>
-    <div class="roles" role="tablist" aria-label="Xem với vai trò">
+    <div class="roles staff-only" role="tablist" aria-label="Xem với vai trò">
       <button role="tab" id="tab-khach" data-view="khach" aria-selected="true">Khách</button>
       <button role="tab" id="tab-bacsi" data-view="bacsi" aria-selected="false">Bác sĩ</button>
       <button role="tab" id="tab-quantri" data-view="quantri" aria-selected="false">Quản trị</button>
@@ -202,8 +204,7 @@ footer { padding-block: 0 40px; font-size: 0.8rem; color: var(--muted); }
         <div class="avatar" aria-hidden="true">BS</div>
         <div style="display:grid;gap:4px;min-width:0">
           <h1>Khám sức khỏe tinh thần online cho người trẻ</h1>
-          <p class="muted">ThS. BS. Nguyễn Thị Thu Hằng, chuyên khoa Tâm thần, Bác sĩ nội trú ĐH Y Hà Nội · Giấy phép hành nghề số <span class="placeholder">[số]</span></p>
-          <p class="small muted">Dịch vụ do <span class="placeholder">[Tên phòng khám hợp tác]</span> cung cấp, đã công bố đủ điều kiện khám từ xa.</p>
+          <p class="muted">ThS. BS. Nguyễn Thị Thu Hằng, chuyên khoa Tâm thần, Bác sĩ nội trú ĐH Y Hà Nội</p>
         </div>
       </div>
       <div class="prices" id="price-chips"></div>
@@ -249,7 +250,7 @@ footer { padding-block: 0 40px; font-size: 0.8rem; color: var(--muted); }
       </div>
       <p class="small"><b>Thanh toán trước 100% để xác nhận lịch khám.</b> Ghi đúng nội dung chuyển khoản để hệ thống nhận ra ca của bạn.</p>
       <p class="small muted">Khung giờ đang được giữ riêng cho bạn. Hết thời gian mà chưa nhận được tiền, khung sẽ mở lại cho người khác.</p>
-      <div class="sim">
+      <div class="sim staff-only">
         <span class="sim-label">Nút mô phỏng của bản mẫu</span>
         <div class="row"><button class="btn" id="sim-paid">Tiền đã về</button><button class="btn quiet" id="sim-expire">Cho hết 10 phút</button></div>
       </div>
@@ -313,12 +314,12 @@ footer { padding-block: 0 40px; font-size: 0.8rem; color: var(--muted); }
     <div class="row"><button class="btn quiet sm" id="reset">Đặt lại dữ liệu mẫu</button></div>
   </section>
 </main>
-<footer class="wrap">Bản mẫu để xem cách hoạt động. Mọi tên, số tiền và lịch hẹn ở đây là giả. Không nhập thông tin thật. Dữ liệu chỉ lưu trên trình duyệt của bạn.</footer>
+<footer class="wrap staff-only">Bản mẫu để xem cách hoạt động. Mọi tên, số tiền và lịch hẹn ở đây là giả. Không nhập thông tin thật. Dữ liệu chỉ lưu trên trình duyệt của bạn.</footer>
 <div class="toast" id="toast" hidden></div>
 
 <script>
 (function () {
-  const KEY = 'tam-an-demo-v1';
+  const KEY = 'tam-tri-v1';
   const HOLD_MIN = 10, CUTOFF_H = 2;
   const TYPES = { first: { label: 'Khám lần đầu', dur: 45 }, follow: { label: 'Tái khám', dur: 25 } };
   const DOW = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
@@ -359,7 +360,7 @@ footer { padding-block: 0 40px; font-size: 0.8rem; color: var(--muted); }
     return st;
   }
   function mkBooking(slot, f, source) {
-    return { id: uid(), code: 'TA' + Math.floor(1000 + Math.random() * 9000), slotId: slot.id, name: f.name, yob: f.yob, phone: f.phone, email: f.email, reason: f.reason, screen: f.screen, price: slot.price, type: slot.type, status: 'held', source: source || 'Trực tiếp', rescheduled: 0, createdAt: Date.now() };
+    return { id: uid(), code: 'TT' + Math.floor(1000 + Math.random() * 9000), slotId: slot.id, name: f.name, yob: f.yob, phone: f.phone, email: f.email, reason: f.reason, screen: f.screen, price: slot.price, type: slot.type, status: 'held', source: source || 'Trực tiếp', rescheduled: 0, createdAt: Date.now() };
   }
   function openWeek(st) {
     const today = new Date(); today.setHours(0, 0, 0, 0); let added = 0;
@@ -455,7 +456,7 @@ footer { padding-block: 0 40px; font-size: 0.8rem; color: var(--muted); }
   }
   function renderPay() {
     const b = bookingById(curBooking); if (!b) return; const s = slotById(b.slotId);
-    const memo = 'THU HO TAMAN ' + b.code;
+    const memo = 'THU HO TAMTRI ' + b.code;
     $('pay-info').innerHTML = `<dt>Khung</dt><dd>${dayLabel(s.date)}, ${s.time}</dd><dt>Dịch vụ</dt><dd>${TYPES[s.type].label}, ${s.dur} phút</dd><dt>Số tiền</dt><dd>${money(b.price)}</dd><dt>Ngân hàng</dt><dd>VIB</dd><dt>Số tài khoản</dt><dd>012323456</dd><dt>Chủ tài khoản</dt><dd>NGUYEN DUY HIEN</dd><dt>Nội dung CK</dt><dd><b>${memo}</b></dd>`;
     $('qr').src = 'https://img.vietqr.io/image/970441-012323456-compact.png?amount=' + b.price + '&addInfo=' + encodeURIComponent(memo) + '&accountName=' + encodeURIComponent('NGUYEN DUY HIEN');
     tick();
@@ -576,8 +577,10 @@ footer { padding-block: 0 40px; font-size: 0.8rem; color: var(--muted); }
   document.querySelectorAll('.roles button').forEach(b => b.onclick = () => { setView(b.dataset.view); try { history.replaceState(null, '', '#' + b.dataset.view); } catch (e) {} });
 
   S = load();
+  const staff = new URLSearchParams(location.search).has('nhanvien');
+  document.body.classList.toggle('staff', staff);
   const fromHash = (location.hash || '').slice(1);
-  setView(['khach', 'bacsi', 'quantri'].includes(fromHash) ? fromHash : 'khach');
+  setView(staff && ['khach', 'bacsi', 'quantri'].includes(fromHash) ? fromHash : 'khach');
   setInterval(() => { expireHolds(); tick(); }, 1000);
 })();
 </script>
