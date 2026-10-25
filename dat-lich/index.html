@@ -28,7 +28,7 @@
 <main class="wrap">
   <div class="panel">
     <div class="doctor">
-      <div class="avatar" aria-hidden="true">BS</div>
+      <img class="avatar" src="../bac-si-thu-hang.jpg" alt="" width="64" height="64" style="object-fit:cover;object-position:top">
       <div style="display:grid;gap:4px;min-width:0">
         <h1>Khám sức khỏe tinh thần online cho người trẻ</h1>
         <p class="muted">ThS. BS. Nguyễn Thị Thu Hằng, chuyên khoa Tâm thần, Bác sĩ nội trú ĐH Y Hà Nội</p>
@@ -61,12 +61,14 @@
       <label>Điều bạn muốn trao đổi (không bắt buộc, chỉ bác sĩ đọc)<input type="text" id="f-reason" maxlength="160" placeholder="Ví dụ: mất ngủ kéo dài"></label>
       <fieldset>
         <legend>3 câu hỏi an toàn</legend>
+        <p class="small muted">Bác sĩ hỏi để biết bạn đang ổn đến đâu. Bạn cứ trả lời thật, câu trả lời nào cũng không làm bạn mất lịch khám.</p>
         <div class="yn"><span>Gần đây bạn có ý nghĩ làm hại bản thân hoặc không muốn sống nữa không?</span><span class="opts"><label><input type="radio" name="q1" value="1">Có</label><label><input type="radio" name="q1" value="0">Không</label></span></div>
         <div class="yn"><span>Bạn đang ở một mình và cảm thấy không an toàn không?</span><span class="opts"><label><input type="radio" name="q2" value="1">Có</label><label><input type="radio" name="q2" value="0">Không</label></span></div>
         <div class="yn"><span>Bạn có đang dùng rượu, chất kích thích để chịu đựng không?</span><span class="opts"><label><input type="radio" name="q3" value="1">Có</label><label><input type="radio" name="q3" value="0">Không</label></span></div>
       </fieldset>
       <label class="check"><input type="checkbox" id="f-consent">Tôi đồng ý để phòng khám xử lý thông tin sức khỏe của tôi nhằm đặt lịch và khám bệnh.</label>
       <p class="small" id="form-error" style="color:var(--danger)" hidden></p>
+      <p class="small muted">Bước tiếp theo: chuyển khoản bằng mã QR. Khung giờ được giữ riêng cho bạn 30 phút.</p>
       <div class="row"><button class="btn" type="submit" id="f-submit">Giữ chỗ và thanh toán</button><button class="btn quiet" type="button" id="f-cancel">Chọn khung khác</button></div>
     </form>
   </div>
@@ -99,8 +101,9 @@
       <p>Cảm ơn bạn đã nói thật. Nếu bạn đang gặp nguy hiểm, hãy gọi ngay:</p>
       <p class="hotline">Cấp cứu 115</p>
       <p class="hotline">Đường dây nóng Ngày Mai 096 306 1414</p>
-      <p>Hãy ở cạnh một người bạn tin tưởng. Phòng khám đã nhận thông tin và sẽ gọi lại cho bạn qua số bạn vừa để lại.</p>
+      <p>Hãy ở cạnh một người bạn tin tưởng. Lịch khám của bạn vẫn được giữ, và bác sĩ sẽ được báo để liên hệ với bạn sớm hơn.</p>
     </div>
+    <div class="row"><button class="btn" id="crisis-continue" type="button">Tiếp tục giữ lịch khám</button></div>
   </div>
 </main>
 
@@ -179,8 +182,9 @@
     $('f-submit').disabled = false; $('f-submit').textContent = 'Giữ chỗ và thanh toán';
     if (error) { formError(T.errText(error)); load(); return; }
     $('book-form').reset(); selSlot = null;
+    cur = data; load();
     if (data.crisis) { show('crisis-panel'); return; }
-    cur = data; showPay(); load();
+    showPay();
   });
 
   function showPay() {
@@ -219,6 +223,7 @@
   }
   $('copy-memo').onclick = e => cur && copy(C.bank.memoPrefix + ' ' + cur.code, e.currentTarget);
   $('copy-acc').onclick = e => copy(C.bank.account, e.currentTarget);
+  $('crisis-continue').onclick = () => showPay();
   $('lost-back').onclick = () => { show(null); load(); };
 
   load();

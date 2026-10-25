@@ -71,7 +71,7 @@ main { padding-block: 24px 64px; display: grid; gap: 20px; }
 .between { justify-content: space-between; }
 
 .doctor { display: grid; grid-template-columns: 64px 1fr; gap: 14px; align-items: center; }
-@media (max-width: 480px) { .doctor { grid-template-columns: 1fr; } .avatar { display: none !important; } }
+@media (max-width: 480px) { .doctor { grid-template-columns: 56px 1fr; align-items: start; } .avatar { width: 56px !important; height: 56px !important; } }
 .avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; }
 .placeholder { background: var(--held-soft); color: var(--held); padding: 0 4px; border-radius: 4px; }
 .prices { display: flex; flex-wrap: wrap; gap: 8px; }

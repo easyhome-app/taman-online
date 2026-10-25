@@ -40,6 +40,7 @@ create table if not exists public.bookings (
   created_at timestamptz not null default now(),
   paid_at timestamptz
 );
+alter table public.bookings add column if not exists urgent boolean not null default false;
 create index if not exists bookings_slot_idx on public.bookings(slot_id);
 
 create or replace function public.my_role() returns text
@@ -109,12 +110,6 @@ begin
     exit when not exists (select 1 from public.bookings where code = c);
   end loop;
 
-  if crisis then
-    insert into public.bookings (code, slot_id, name, yob, phone, reason, screen, price, status)
-    values (c, null, trim(p_name), p_yob, trim(p_phone), left(p_reason, 300), p_screen, 0, 'crisis');
-    return json_build_object('crisis', true, 'code', c);
-  end if;
-
   if s.start_at < now() + interval '1 hour' then raise exception 'slot_too_late'; end if;
   if not (s.status = 'open' or (s.status = 'held' and s.hold_until < now())) then
     raise exception 'slot_taken';
@@ -123,10 +118,11 @@ begin
   update public.bookings set status = 'expired'
     where slot_id = s.id and status = 'held';
   update public.slots set status = 'held', hold_until = now() + interval '30 minutes' where id = s.id;
-  insert into public.bookings (code, slot_id, name, yob, phone, reason, screen, price, status)
-  values (c, s.id, trim(p_name), p_yob, trim(p_phone), left(p_reason, 300), p_screen, s.price, 'held');
+  -- Khách trả lời "Có" ở câu an toàn vẫn được giữ lịch, ca được gắn cờ đỏ để gọi lại sớm
+  insert into public.bookings (code, slot_id, name, yob, phone, reason, screen, price, status, urgent)
+  values (c, s.id, trim(p_name), p_yob, trim(p_phone), left(p_reason, 300), p_screen, s.price, 'held', crisis);
 
-  return json_build_object('crisis', false, 'code', c, 'price', s.price,
+  return json_build_object('crisis', crisis, 'code', c, 'price', s.price,
     'start_at', s.start_at, 'dur', s.dur, 'kind', s.kind, 'hold_until', now() + interval '30 minutes');
 end $$;
 

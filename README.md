@@ -3,7 +3,7 @@
 ## Cấu trúc
 - `index.html`: trang chính.
 - `dat-lich/`: trang khách chọn giờ, giữ chỗ 30 phút, thanh toán trước 100% qua VIB.
-- `quan-ly/`: trang đăng nhập cho quản lý và bác sĩ (tamtri.vn/quan-ly/).
+- `quan-ly/`: trang đăng nhập cho quản lý và bác sĩ (tamtri.shopyte.vn/quan-ly/).
 - `assets/config.js`: nơi điền Project URL và khóa publishable của Supabase. Đây là file duy nhất cần sửa.
 - `supabase/schema.sql`: tạo cơ sở dữ liệu (chạy 1 lần).
 - `supabase/cap-quyen.sql`: cấp quyền quản lý và bác sĩ cho 2 email.
@@ -28,7 +28,7 @@
 - Khách giữ chỗ quá 30 phút mà chưa được xác nhận thì người khác có thể đặt khung đó. Nếu khách đã chuyển khoản muộn, anh vẫn bấm "Đã nhận tiền" được, miễn khung chưa bán cho người khác.
 
 ## Đưa lên Vercel
-Kéo cả thư mục (giữ nguyên các thư mục con) lên GitHub, Vercel tự cập nhật. Tên miền: thêm tamtri.vn ở Vercel → Settings → Domains, chép bản ghi A và CNAME sang Cloudflare, để đám mây xám (DNS only).
+Kéo cả thư mục (giữ nguyên các thư mục con) lên GitHub, Vercel tự cập nhật. Tên miền: thêm tamtri.shopyte.vn ở Vercel → Settings → Domains, chép bản ghi A và CNAME sang Cloudflare, để đám mây xám (DNS only).
 
 ## Còn thiếu trước khi chạy quảng cáo
 - Trang chính sách quyền riêng tư.
