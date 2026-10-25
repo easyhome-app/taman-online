@@ -2,190 +2,19 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Đặt lịch khám | Tâm Trí Online</title>
+<meta name="description" content="Chọn giờ khám sức khỏe tinh thần online qua video Zalo với ThS. BS. Nguyễn Thị Thu Hằng.">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<title>Lịch khám Tâm Trí</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Lora:wght@500;600&display=swap">
-<style>
-/* Layout: một cột hẹp như ứng dụng đặt lịch, thanh vai trò cố định trên cùng, lịch dạng lưới khung giờ */
-:root {
-  --bg: #f3f6f6;
-  --surface: #ffffff;
-  --ink: #18282c;
-  --muted: #5b6d71;
-  --line: #d8e1e2;
-  --accent: #2b6970;
-  --accent-ink: #ffffff;
-  --accent-soft: #e2eeef;
-  --held: #a8670f;
-  --held-soft: #fbf0dc;
-  --sold: #8a9799;
-  --sold-soft: #eceff0;
-  --danger: #b3261e;
-  --danger-soft: #fbe7e5;
-  --good: #2f7a46;
-  --good-soft: #e3f2e7;
-  --font-display: "Lora", Georgia, serif;
-  --font-body: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #111a1c; --surface: #182427; --ink: #e4ecec; --muted: #9fb0b2; --line: #2b3b3e;
-    --accent: #6fb3ba; --accent-ink: #0d1a1c; --accent-soft: #1f3538;
-    --held: #e3a649; --held-soft: #3a2c15; --sold: #6f7d80; --sold-soft: #222e31;
-    --danger: #f08a80; --danger-soft: #3b1f1d; --good: #7cc895; --good-soft: #1b3324;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #111a1c; --surface: #182427; --ink: #e4ecec; --muted: #9fb0b2; --line: #2b3b3e;
-  --accent: #6fb3ba; --accent-ink: #0d1a1c; --accent-soft: #1f3538;
-  --held: #e3a649; --held-soft: #3a2c15; --sold: #6f7d80; --sold-soft: #222e31;
-  --danger: #f08a80; --danger-soft: #3b1f1d; --good: #7cc895; --good-soft: #1b3324;
-  color-scheme: dark;
-}
-* { box-sizing: border-box; }
-body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
-body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
-.wrap { max-width: 860px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-h1, h2, h3 { text-wrap: balance; margin: 0; }
-h1 { font-family: var(--font-display); font-size: 1.7rem; font-weight: 600; }
-h2 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; }
-h3 { font-size: 1rem; font-weight: 600; }
-p { margin: 0; }
-.muted { color: var(--muted); }
-.small { font-size: 0.85rem; }
-.num { font-variant-numeric: tabular-nums; }
-button, input, select { font: inherit; color: inherit; }
-button { cursor: pointer; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line); }
-.topbar .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding-block: 10px; }
-.demo-tag { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--held); }
-.roles { display: flex; gap: 4px; background: var(--bg); padding: 4px; border-radius: 10px; }
-.roles button { border: 0; background: transparent; padding: 6px 12px; border-radius: 7px; font-size: 0.9rem; color: var(--muted); }
-.roles button[aria-selected="true"] { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: 0 1px 2px rgb(0 0 0 / 0.08); }
-
-.sos { background: var(--danger-soft); color: var(--ink); }
-.sos .wrap { padding-block: 8px; font-size: 0.88rem; display: flex; flex-wrap: wrap; gap: 4px 12px; }
-.sos strong { color: var(--danger); }
-
-main { padding-block: 24px 64px; display: grid; gap: 20px; }
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; display: grid; gap: 14px; min-width: 0; }
-.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.between { justify-content: space-between; }
-
-.doctor { display: grid; grid-template-columns: 64px 1fr; gap: 14px; align-items: center; }
-@media (max-width: 480px) { .doctor { grid-template-columns: 1fr; } .avatar { display: none !important; } }
-.avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; }
-.placeholder { background: var(--held-soft); color: var(--held); padding: 0 4px; border-radius: 4px; }
-.prices { display: flex; flex-wrap: wrap; gap: 8px; }
-.chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 0.82rem; border: 1px solid var(--line); background: var(--bg); }
-
-.days { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
-.day { flex: 0 0 auto; min-width: 64px; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 8px 10px; text-align: center; }
-.day .dow { font-size: 0.78rem; color: var(--muted); display: block; }
-.day .dnum { font-weight: 600; font-variant-numeric: tabular-nums; }
-.day .cnt { font-size: 0.72rem; color: var(--accent); display: block; }
-.day[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
-
-.slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-.slot { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--surface); text-align: left; display: grid; gap: 2px; }
-.slot .t { font-size: 1.15rem; font-weight: 600; font-variant-numeric: tabular-nums; }
-.slot .k { font-size: 0.82rem; color: var(--muted); }
-.slot .p { font-size: 0.9rem; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--accent); }
-.slot.free:hover { border-color: var(--accent); }
-.slot.free[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
-.slot.held { background: var(--held-soft); border-color: transparent; cursor: not-allowed; }
-.slot.held .p, .slot.held .t { color: var(--held); }
-.slot.sold, .slot.late { background: var(--sold-soft); border-color: transparent; cursor: not-allowed; }
-.slot.sold .t, .slot.sold .p, .slot.late .t, .slot.late .p { color: var(--sold); }
-.slot.sold .t { text-decoration: line-through; }
-.legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 0.8rem; color: var(--muted); }
-.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
-
-form { display: grid; gap: 12px; }
-.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
-label { display: grid; gap: 4px; font-size: 0.88rem; font-weight: 500; }
-input[type=text], input[type=tel], input[type=email], input[type=number], input[type=time], select { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: var(--surface); width: 100%; min-width: 0; }
-fieldset { border: 1px solid var(--line); border-radius: 10px; padding: 12px; margin: 0; display: grid; gap: 10px; }
-legend { font-weight: 600; font-size: 0.9rem; padding: 0 4px; }
-.yn { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: center; font-size: 0.9rem; }
-.yn span { flex: 1 1 220px; }
-.yn .opts { display: flex; gap: 12px; }
-.yn .opts label { display: flex; gap: 4px; align-items: center; font-weight: 400; }
-.check { display: flex; gap: 8px; align-items: flex-start; font-weight: 400; }
-.check input { margin-top: 4px; }
-
-.btn { border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); border-radius: 8px; padding: 9px 16px; font-weight: 600; }
-.btn.ghost { background: transparent; color: var(--accent); }
-.btn.quiet { border-color: var(--line); background: var(--surface); color: var(--ink); font-weight: 500; }
-.btn.danger { border-color: var(--danger); background: transparent; color: var(--danger); }
-.btn.sm { padding: 5px 10px; font-size: 0.82rem; }
-.btn:disabled { opacity: 0.45; cursor: not-allowed; }
-
-.pay { display: grid; grid-template-columns: 180px 1fr; gap: 18px; align-items: start; }
-@media (max-width: 520px) { .pay { grid-template-columns: 1fr; } }
-img.qr { width: 180px; height: 180px; background: #fff; border-radius: 8px; border: 1px solid var(--line); }
-.kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: 0.92rem; }
-.kv dt { color: var(--muted); }
-.kv dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; min-width: 0; overflow-wrap: anywhere; }
-.countdown { font-size: 1.6rem; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--held); }
-.sim { border-top: 1px dashed var(--line); padding-top: 12px; display: grid; gap: 8px; }
-.sim-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--held); font-weight: 600; }
-
-.alert { border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; }
-.alert.crisis { background: var(--danger-soft); }
-.alert.crisis h3 { color: var(--danger); }
-.alert.ok { background: var(--good-soft); }
-.alert.ok h3 { color: var(--good); }
-.hotline { font-size: 1.15rem; font-weight: 700; font-variant-numeric: tabular-nums; user-select: all; }
-
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
-th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
-td.num, th.num { text-align: right; }
-.pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 0.76rem; font-weight: 600; white-space: nowrap; }
-.pill.paid { background: var(--good-soft); color: var(--good); }
-.pill.held { background: var(--held-soft); color: var(--held); }
-.pill.gone { background: var(--sold-soft); color: var(--sold); }
-.pill.need { background: var(--danger-soft); color: var(--danger); }
-.pill.free { background: var(--accent-soft); color: var(--accent); }
-.actions { display: flex; flex-wrap: wrap; gap: 6px; }
-
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
-.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
-.stat b { display: block; font-size: 1.5rem; font-variant-numeric: tabular-nums; }
-.stat span { font-size: 0.82rem; color: var(--muted); }
-.stat.warn b { color: var(--danger); }
-
-.tpl-row { display: grid; grid-template-columns: 1.1fr 0.9fr 1.4fr 0.8fr 1fr auto; gap: 8px; align-items: end; }
-@media (max-width: 640px) { .tpl-row { grid-template-columns: 1fr 1fr 1fr; padding-bottom: 8px; border-bottom: 1px solid var(--line); } .tpl-row .rm { justify-self: start; align-self: center; } }
-.tpl-head { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
-@media (max-width: 640px) { .tpl-head { display: none; } }
-
-.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-size: 0.9rem; max-width: calc(100% - 32px); z-index: 20; }
-footer { padding-block: 0 40px; font-size: 0.8rem; color: var(--muted); }
-@media (prefers-reduced-motion: no-preference) { .slot, .day, .btn { transition: border-color .15s, background-color .15s; } }
-/* Khách chỉ thấy phần đặt lịch; phần Bác sĩ, Quản trị mở bằng ?nhanvien */
-body:not(.staff) .staff-only { display: none !important; }
-</style>
+<link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
 
 <div class="topbar">
   <div class="wrap">
-    <div>
-      <span class="demo-tag staff-only">Bản mẫu · dữ liệu giả</span>
-      <div style="font-weight:600">Lịch khám Tâm Trí</div>
-    </div>
-    <div class="roles staff-only" role="tablist" aria-label="Xem với vai trò">
-      <button role="tab" id="tab-khach" data-view="khach" aria-selected="true">Khách</button>
-      <button role="tab" id="tab-bacsi" data-view="bacsi" aria-selected="false">Bác sĩ</button>
-      <button role="tab" id="tab-quantri" data-view="quantri" aria-selected="false">Quản trị</button>
-    </div>
+    <a href="../" style="font-weight:600;color:inherit;text-decoration:none">Tâm Trí Online</a>
+    <span class="small muted">Đặt lịch khám</span>
   </div>
 </div>
 <div class="sos">
@@ -197,390 +26,205 @@ body:not(.staff) .staff-only { display: none !important; }
 </div>
 
 <main class="wrap">
-  <!-- KHÁCH -->
-  <section id="view-khach" class="view" style="display:grid;gap:20px">
-    <div class="panel">
-      <div class="doctor">
-        <div class="avatar" aria-hidden="true">BS</div>
-        <div style="display:grid;gap:4px;min-width:0">
-          <h1>Khám sức khỏe tinh thần online cho người trẻ</h1>
-          <p class="muted">ThS. BS. Nguyễn Thị Thu Hằng, chuyên khoa Tâm thần, Bác sĩ nội trú ĐH Y Hà Nội</p>
-        </div>
-      </div>
-      <div class="prices" id="price-chips"></div>
-    </div>
-
-    <div class="panel" id="pick-panel">
-      <div class="row between">
-        <h2>Chọn khung giờ</h2>
-        <div class="legend"><span><i style="background:var(--accent-soft);border:1px solid var(--accent)"></i>Còn trống</span><span><i style="background:var(--held-soft)"></i>Đang có người giữ</span><span><i style="background:var(--sold-soft)"></i>Đã đặt hoặc sát giờ</span></div>
-      </div>
-      <div class="days" id="days"></div>
-      <div class="slots" id="slots"></div>
-      <p class="small muted">Giờ Việt Nam. Không nhận đặt khung bắt đầu trong vòng 2 giờ tới.</p>
-    </div>
-
-    <div class="panel" id="form-panel" hidden>
-      <h2>Thông tin đặt lịch</h2>
-      <p class="muted" id="form-slot"></p>
-      <form id="book-form" novalidate>
-        <div class="grid2">
-          <label>Họ và tên<input type="text" id="f-name" required autocomplete="name"></label>
-          <label>Năm sinh<input type="number" id="f-yob" min="1950" max="2012" required inputmode="numeric"></label>
-          <label>Số điện thoại hoặc Zalo<input type="tel" id="f-phone" required autocomplete="tel"></label>
-        </div>
-        <label>Điều bạn muốn trao đổi (không bắt buộc, chỉ bác sĩ đọc)<input type="text" id="f-reason" maxlength="160" placeholder="Ví dụ: mất ngủ mùa thi"></label>
-        <fieldset>
-          <legend>3 câu hỏi an toàn</legend>
-          <div class="yn"><span>Gần đây bạn có ý nghĩ làm hại bản thân hoặc không muốn sống nữa không?</span><span class="opts"><label><input type="radio" name="q1" id="q1-y" value="1">Có</label><label><input type="radio" name="q1" id="q1-n" value="0">Không</label></span></div>
-          <div class="yn"><span>Bạn đang ở một mình và cảm thấy không an toàn không?</span><span class="opts"><label><input type="radio" name="q2" id="q2-y" value="1">Có</label><label><input type="radio" name="q2" id="q2-n" value="0">Không</label></span></div>
-          <div class="yn"><span>Bạn có đang dùng rượu, chất kích thích để chịu đựng không?</span><span class="opts"><label><input type="radio" name="q3" id="q3-y" value="1">Có</label><label><input type="radio" name="q3" id="q3-n" value="0">Không</label></span></div>
-        </fieldset>
-        <label class="check"><input type="checkbox" id="f-consent">Tôi đồng ý để phòng khám xử lý thông tin sức khỏe của tôi nhằm đặt lịch và khám bệnh, theo chính sách quyền riêng tư.</label>
-        <p class="small" id="form-error" style="color:var(--danger)" hidden></p>
-        <div class="row"><button class="btn" type="submit" id="f-submit">Giữ chỗ và thanh toán</button><button class="btn quiet" type="button" id="f-cancel">Chọn khung khác</button></div>
-      </form>
-    </div>
-
-    <div class="panel" id="pay-panel" hidden>
-      <div class="row between"><h2>Thanh toán để giữ khung</h2><div class="countdown" id="countdown">10:00</div></div>
-      <div class="pay">
-        <div style="display:grid;gap:6px;justify-items:start"><img class="qr" id="qr" width="180" height="180" alt="Mã QR chuyển khoản VIB"><span class="small muted">Quét bằng app ngân hàng, số tiền và nội dung tự điền.</span></div>
-        <dl class="kv" id="pay-info"></dl>
-      </div>
-      <p class="small"><b>Thanh toán trước 100% để xác nhận lịch khám.</b> Ghi đúng nội dung chuyển khoản để hệ thống nhận ra ca của bạn.</p>
-      <p class="small muted">Khung giờ đang được giữ riêng cho bạn. Hết thời gian mà chưa nhận được tiền, khung sẽ mở lại cho người khác.</p>
-      <div class="sim staff-only">
-        <span class="sim-label">Nút mô phỏng của bản mẫu</span>
-        <div class="row"><button class="btn" id="sim-paid">Tiền đã về</button><button class="btn quiet" id="sim-expire">Cho hết 10 phút</button></div>
+  <div class="panel">
+    <div class="doctor">
+      <div class="avatar" aria-hidden="true">BS</div>
+      <div style="display:grid;gap:4px;min-width:0">
+        <h1>Khám sức khỏe tinh thần online cho người trẻ</h1>
+        <p class="muted">ThS. BS. Nguyễn Thị Thu Hằng, chuyên khoa Tâm thần, Bác sĩ nội trú ĐH Y Hà Nội</p>
       </div>
     </div>
+    <div class="prices" id="price-chips"></div>
+  </div>
 
-    <div class="panel" id="done-panel" hidden>
-      <div class="alert ok"><h3>Đã đặt lịch thành công</h3><p id="done-text"></p></div>
-      <dl class="kv" id="done-info"></dl>
-      <p class="small muted">Đổi lịch miễn phí 1 lần nếu báo trước 24 giờ. Link phòng khám chỉ dùng cho ca này, có phòng chờ, không ghi âm hay ghi hình nếu bạn chưa đồng ý.</p>
-      <div class="row"><button class="btn quiet" id="done-back">Về lịch</button></div>
+  <div class="notice" id="not-ready" hidden>Trang đặt lịch đang được cài đặt. Bạn quay lại sau ít phút nhé.</div>
+
+  <div class="panel" id="pick-panel">
+    <div class="row between">
+      <h2>Chọn khung giờ</h2>
+      <div class="legend"><span><i style="background:var(--accent-soft);border:1px solid var(--accent)"></i>Còn trống</span><span><i style="background:var(--held-soft)"></i>Đang có người giữ</span><span><i style="background:var(--sold-soft)"></i>Đã đặt hoặc sát giờ</span></div>
     </div>
+    <div class="days" id="days"></div>
+    <div class="slots" id="slots"><p class="muted">Đang tải lịch…</p></div>
+    <p class="small muted">Giờ Việt Nam. Không nhận đặt khung bắt đầu trong vòng 1 giờ tới.</p>
+  </div>
 
-    <div class="panel" id="crisis-panel" hidden>
-      <div class="alert crisis">
-        <h3>Bạn không phải chờ đến lịch khám</h3>
-        <p>Cảm ơn bạn đã nói thật. Nếu bạn đang gặp nguy hiểm, hãy gọi ngay:</p>
-        <p class="hotline">Cấp cứu 115</p>
-        <p class="hotline">Đường dây nóng Ngày Mai 096 306 1414</p>
-        <p>Hãy ở cạnh một người bạn tin tưởng. Bác sĩ trực đã được báo và sẽ gọi lại cho bạn qua số bạn vừa để lại.</p>
+  <div class="panel" id="form-panel" hidden>
+    <h2>Thông tin đặt lịch</h2>
+    <p class="muted" id="form-slot"></p>
+    <form id="book-form" novalidate>
+      <div class="grid2">
+        <label>Họ và tên<input type="text" id="f-name" autocomplete="name" maxlength="80"></label>
+        <label>Năm sinh<input type="number" id="f-yob" min="1920" max="2010" inputmode="numeric"></label>
+        <label>Số điện thoại Zalo<input type="tel" id="f-phone" autocomplete="tel" maxlength="20"></label>
       </div>
-      <p class="small muted">Bản mẫu: ca này không đi qua thanh toán. Nó hiện cờ đỏ ở màn hình Bác sĩ và Quản trị.</p>
-      <div class="row"><button class="btn quiet" id="crisis-back">Về lịch</button></div>
-    </div>
-  </section>
+      <label>Điều bạn muốn trao đổi (không bắt buộc, chỉ bác sĩ đọc)<input type="text" id="f-reason" maxlength="160" placeholder="Ví dụ: mất ngủ kéo dài"></label>
+      <fieldset>
+        <legend>3 câu hỏi an toàn</legend>
+        <div class="yn"><span>Gần đây bạn có ý nghĩ làm hại bản thân hoặc không muốn sống nữa không?</span><span class="opts"><label><input type="radio" name="q1" value="1">Có</label><label><input type="radio" name="q1" value="0">Không</label></span></div>
+        <div class="yn"><span>Bạn đang ở một mình và cảm thấy không an toàn không?</span><span class="opts"><label><input type="radio" name="q2" value="1">Có</label><label><input type="radio" name="q2" value="0">Không</label></span></div>
+        <div class="yn"><span>Bạn có đang dùng rượu, chất kích thích để chịu đựng không?</span><span class="opts"><label><input type="radio" name="q3" value="1">Có</label><label><input type="radio" name="q3" value="0">Không</label></span></div>
+      </fieldset>
+      <label class="check"><input type="checkbox" id="f-consent">Tôi đồng ý để phòng khám xử lý thông tin sức khỏe của tôi nhằm đặt lịch và khám bệnh.</label>
+      <p class="small" id="form-error" style="color:var(--danger)" hidden></p>
+      <div class="row"><button class="btn" type="submit" id="f-submit">Giữ chỗ và thanh toán</button><button class="btn quiet" type="button" id="f-cancel">Chọn khung khác</button></div>
+    </form>
+  </div>
 
-  <!-- BÁC SĨ -->
-  <section id="view-bacsi" class="view" hidden style="gap:20px">
-    <div class="panel">
-      <div class="row between"><h2>Ca khám hôm nay và sắp tới</h2><span class="small muted" id="doc-count"></span></div>
-      <div class="table-wrap"><table><thead><tr><th>Giờ</th><th>Khách</th><th>Loại</th><th>Sàng lọc và lý do</th><th></th></tr></thead><tbody id="doc-appts"></tbody></table></div>
+  <div class="panel" id="pay-panel" hidden>
+    <div class="row between"><h2>Thanh toán để giữ khung</h2><div class="countdown" id="countdown">30:00</div></div>
+    <div class="pay">
+      <div style="display:grid;gap:6px;justify-items:start"><img class="qr" id="qr" width="180" height="180" alt="Mã QR chuyển khoản VIB"><span class="small muted">Quét bằng app ngân hàng, số tiền và nội dung tự điền.</span></div>
+      <dl class="kv" id="pay-info"></dl>
     </div>
+    <p class="small"><b>Thanh toán trước 100% để xác nhận lịch khám.</b> Ghi đúng nội dung chuyển khoản để phòng khám nhận ra ca của bạn.</p>
+    <p class="small muted">Chuyển khoản xong, bạn để trang này mở. Khi phòng khám xác nhận đã nhận tiền, trang sẽ tự báo và bạn nhận tin nhắn Zalo. Khung giờ được giữ riêng cho bạn trong 30 phút.</p>
+    <div class="row"><button class="btn quiet sm" id="copy-memo" type="button">Sao chép nội dung chuyển khoản</button><button class="btn quiet sm" id="copy-acc" type="button">Sao chép số tài khoản</button></div>
+  </div>
 
-    <div class="panel">
-      <div class="row between"><h2>Mẫu tuần</h2><button class="btn ghost sm" id="tpl-add">Thêm dòng</button></div>
-      <p class="small muted">Tạo một lần. Mỗi sáng thứ Hai bấm "Mở lịch 7 ngày tới" là xong. Khung đã có sẽ không bị tạo trùng.</p>
-      <div class="tpl-row tpl-head"><span>Thứ</span><span>Giờ</span><span>Loại khung</span><span>Phút</span><span>Giá (đ)</span><span></span></div>
-      <div id="tpl" style="display:grid;gap:8px"></div>
-      <div class="row"><button class="btn" id="tpl-open">Mở lịch 7 ngày tới</button></div>
-    </div>
+  <div class="panel" id="done-panel" hidden>
+    <div class="alert ok"><h3>Đã xác nhận lịch khám</h3><p id="done-text"></p></div>
+    <p class="small muted">Bác sĩ gọi video qua Zalo đúng giờ hẹn. Bạn chuẩn bị một góc riêng, yên tĩnh. Đổi lịch miễn phí 1 lần nếu báo trước 24 giờ.</p>
+    <div class="row"><a class="btn quiet" href="../">Về trang chủ</a></div>
+  </div>
 
-    <div class="panel">
-      <div class="row between"><h2>Sửa từng ngày</h2></div>
-      <div class="days" id="doc-days"></div>
-      <div class="table-wrap"><table><thead><tr><th>Giờ</th><th>Loại</th><th class="num">Giá (đ)</th><th>Trạng thái</th><th></th></tr></thead><tbody id="doc-slots"></tbody></table></div>
-      <p class="small muted">Chỉ đổi được giá của khung chưa bán. Khung đã bán không xóa được, chỉ hủy ca: khách được báo để chọn khung khác hoặc hoàn tiền.</p>
-    </div>
-  </section>
+  <div class="panel" id="lost-panel" hidden>
+    <div class="alert crisis"><h3>Khung giờ đã hết thời gian giữ</h3><p id="lost-text"></p></div>
+    <div class="row"><button class="btn" id="lost-back" type="button">Chọn khung khác</button></div>
+  </div>
 
-  <!-- QUẢN TRỊ -->
-  <section id="view-quantri" class="view" hidden style="gap:20px">
-    <div class="stats" id="stats"></div>
-    <div class="panel">
-      <div class="row between"><h2>Đơn đặt lịch</h2><button class="btn quiet sm" id="dup-test">Thử bán trùng một khung đã bán</button></div>
-      <p class="small muted">Anh chỉ thấy thông tin để chăm sóc khách. Lý do khám và câu trả lời sàng lọc chỉ bác sĩ xem.</p>
-      <div class="table-wrap"><table><thead><tr><th>Mã</th><th>Khách</th><th>Khung giờ</th><th class="num">Giá</th><th>Trạng thái</th><th>Nguồn</th><th></th></tr></thead><tbody id="adm-rows"></tbody></table></div>
+  <div class="panel" id="crisis-panel" hidden>
+    <div class="alert crisis">
+      <h3>Bạn không phải chờ đến lịch khám</h3>
+      <p>Cảm ơn bạn đã nói thật. Nếu bạn đang gặp nguy hiểm, hãy gọi ngay:</p>
+      <p class="hotline">Cấp cứu 115</p>
+      <p class="hotline">Đường dây nóng Ngày Mai 096 306 1414</p>
+      <p>Hãy ở cạnh một người bạn tin tưởng. Phòng khám đã nhận thông tin và sẽ gọi lại cho bạn qua số bạn vừa để lại.</p>
     </div>
-    <div class="panel" id="resched-panel" hidden>
-      <h3 id="resched-title"></h3>
-      <div class="row"><select id="resched-select" aria-label="Chọn khung mới"></select><button class="btn sm" id="resched-ok">Chuyển sang khung này</button><button class="btn quiet sm" id="resched-cancel">Thôi</button></div>
-    </div>
-    <div class="row"><button class="btn quiet sm" id="reset">Đặt lại dữ liệu mẫu</button></div>
-  </section>
+  </div>
 </main>
-<footer class="wrap staff-only">Bản mẫu để xem cách hoạt động. Mọi tên, số tiền và lịch hẹn ở đây là giả. Không nhập thông tin thật. Dữ liệu chỉ lưu trên trình duyệt của bạn.</footer>
-<div class="toast" id="toast" hidden></div>
 
+<script src="../assets/supabase.js"></script>
+<script src="../assets/config.js"></script>
+<script src="../assets/common.js"></script>
 <script>
 (function () {
-  const KEY = 'tam-tri-v1';
-  const HOLD_MIN = 10, CUTOFF_H = 2;
-  const TYPES = { first: { label: 'Khám lần đầu', dur: 45 }, follow: { label: 'Tái khám', dur: 25 } };
-  const DOW = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
-  const DOW_FULL = ['Chủ nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
-  const $ = id => document.getElementById(id);
-  const money = n => n.toLocaleString('vi-VN') + ' đ';
-  const pad = n => String(n).padStart(2, '0');
-  const dkey = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
-  const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
-  const parseKey = k => { const [y, m, d] = k.split('-').map(Number); return new Date(y, m - 1, d); };
-  const startOf = s => { const [h, m] = s.time.split(':').map(Number); const d = parseKey(s.date); d.setHours(h, m, 0, 0); return d; };
-  const dayLabel = k => { const d = parseKey(k); return DOW_FULL[d.getDay()] + ' ' + pad(d.getDate()) + '/' + pad(d.getMonth() + 1); };
-  const uid = () => Math.random().toString(36).slice(2, 9);
-  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const { $, esc, money, pad, vnDate, vnTime, vnDay } = T;
+  const C = window.TAMTRI;
+  let slots = [], selDay = null, selSlot = null, cur = null, pollH = null;
 
-  let S, view = 'khach', selDay = null, docDay = null, selSlot = null, curBooking = null, reschedId = null;
+  $('price-chips').innerHTML = Object.values(C.kinds).map(k => `<span class="chip"><b>${esc(k.label)}</b> ${k.dur} phút · ${money(k.price)}</span>`).join('');
 
-  function seed() {
-    const st = { template: [
-      { id: uid(), dow: 1, time: '19:00', type: 'first', dur: 45, price: 350000 },
-      { id: uid(), dow: 1, time: '20:00', type: 'first', dur: 45, price: 350000 },
-      { id: uid(), dow: 1, time: '21:00', type: 'follow', dur: 25, price: 200000 },
-      { id: uid(), dow: 3, time: '19:00', type: 'first', dur: 45, price: 350000 },
-      { id: uid(), dow: 3, time: '20:00', type: 'first', dur: 45, price: 350000 },
-      { id: uid(), dow: 3, time: '21:00', type: 'follow', dur: 25, price: 200000 },
-      { id: uid(), dow: 5, time: '19:00', type: 'first', dur: 45, price: 350000 },
-      { id: uid(), dow: 5, time: '20:00', type: 'first', dur: 45, price: 350000 },
-      { id: uid(), dow: 5, time: '21:00', type: 'follow', dur: 25, price: 200000 },
-      { id: uid(), dow: 5, time: '21:30', type: 'follow', dur: 25, price: 200000 },
-      { id: uid(), dow: 0, time: '09:00', type: 'first', dur: 45, price: 400000 },
-      { id: uid(), dow: 0, time: '10:00', type: 'first', dur: 45, price: 400000 }
-    ], slots: [], bookings: [] };
-    openWeek(st);
-    const future = st.slots.filter(s => startOf(s) - Date.now() > CUTOFF_H * 3600e3);
-    const names = [['Nguyễn Minh A (mẫu)', '090 000 0001', 'Bài FB: Mất ngủ kéo dài'], ['Trần Thu B (mẫu)', '090 000 0002', 'Bài FB: Lo âu trước giờ họp'], ['Lê Hoàng C (mẫu)', '090 000 0003', 'TikTok']];
-    [0, 2, 4].forEach((idx, i) => { const s = future[idx]; if (!s) return; const b = mkBooking(s, { name: names[i][0], phone: names[i][1], yob: 2004 + i, email: '', reason: i === 0 ? 'Mất ngủ 3 tuần, lo thi' : '', screen: [0, 0, 0] }, names[i][2]); b.status = 'paid'; s.status = 'sold'; s.bookingId = b.id; st.bookings.push(b); });
-    const h = future[1]; if (h) { const b = mkBooking(h, { name: 'Phạm Gia D (mẫu)', phone: '090 000 0004', yob: 2005, email: '', reason: '', screen: [0, 0, 0] }, 'Bài FB: Mất ngủ kéo dài'); b.status = 'held'; h.status = 'held'; h.bookingId = b.id; h.holdUntil = Date.now() + 7 * 60e3; st.bookings.push(b); }
-    return st;
-  }
-  function mkBooking(slot, f, source) {
-    return { id: uid(), code: 'TT' + Math.floor(1000 + Math.random() * 9000), slotId: slot.id, name: f.name, yob: f.yob, phone: f.phone, email: f.email, reason: f.reason, screen: f.screen, price: slot.price, type: slot.type, status: 'held', source: source || 'Trực tiếp', rescheduled: 0, createdAt: Date.now() };
-  }
-  function openWeek(st) {
-    const today = new Date(); today.setHours(0, 0, 0, 0); let added = 0;
-    for (let i = 0; i < 7; i++) {
-      const d = addDays(today, i), k = dkey(d);
-      st.template.filter(t => t.dow === d.getDay()).forEach(t => {
-        if (st.slots.some(s => s.date === k && s.time === t.time)) return;
-        st.slots.push({ id: uid(), date: k, time: t.time, type: t.type, dur: t.dur, price: t.price, status: 'free' }); added++;
-      });
-    }
-    st.slots.sort((a, b) => startOf(a) - startOf(b));
-    return added;
-  }
-  function load() { try { const raw = localStorage.getItem(KEY); if (raw) return JSON.parse(raw); } catch (e) {} return seed(); }
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
-  const slotById = id => S.slots.find(s => s.id === id);
-  const bookingById = id => S.bookings.find(b => b.id === id);
-
-  // Một khung chỉ có một người giữ: kiểm tra và đổi trạng thái trong cùng một bước.
-  function reserve(slotId, booking) {
-    const s = slotById(slotId);
-    if (!s || s.status !== 'free') return false;
-    if (startOf(s) - Date.now() <= CUTOFF_H * 3600e3) return false;
-    s.status = 'held'; s.bookingId = booking.id; s.holdUntil = Date.now() + HOLD_MIN * 60e3;
-    return true;
-  }
-  function release(slot) { slot.status = 'free'; delete slot.bookingId; delete slot.holdUntil; }
-  function expireHolds() {
-    let changed = false;
-    S.slots.forEach(s => { if (s.status === 'held' && s.holdUntil <= Date.now()) { const b = bookingById(s.bookingId); if (b) b.status = 'expired'; release(s); changed = true; } });
-    if (changed) { save(); render(); }
+  const panels = ['form-panel', 'pay-panel', 'done-panel', 'lost-panel', 'crisis-panel'];
+  function show(id) {
+    panels.forEach(p => { $(p).hidden = p !== id; });
+    $('pick-panel').hidden = !!id && id !== 'form-panel';
+    if (id) $(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  let toastT;
-  function toast(msg) { const t = $('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 3200); }
-
-  // ---------- Khách ----------
-  function slotClass(s) {
-    if (s.status === 'sold' || s.status === 'cancelled') return 'sold';
-    if (s.status === 'held') return 'held';
-    if (startOf(s) - Date.now() <= CUTOFF_H * 3600e3) return 'late';
+  function state(s) {
+    const now = Date.now();
+    if (new Date(s.start_at).getTime() < now + 3600e3) return 'late';
+    if (s.status === 'sold' || s.status === 'closed') return 'sold';
+    if (s.status === 'held' && new Date(s.hold_until).getTime() > now) return 'held';
     return 'free';
   }
-  function visibleDays() { const today = new Date(); today.setHours(0, 0, 0, 0); return Array.from({ length: 7 }, (_, i) => dkey(addDays(today, i))); }
-  function renderPrices() {
-    const seen = {}; S.template.forEach(t => { const k = t.type + t.price; if (!seen[k]) seen[k] = t; });
-    $('price-chips').innerHTML = Object.values(seen).sort((a, b) => a.price - b.price).map(t => `<span class="chip"><b>${TYPES[t.type].label}</b> ${t.dur} phút · <span class="num">${money(t.price)}</span></span>`).join('');
-  }
-  function renderDays(el, cur, onPick, countFree) {
-    el.innerHTML = visibleDays().map(k => { const d = parseKey(k); const n = S.slots.filter(s => s.date === k && (countFree ? slotClass(s) === 'free' : s.status !== 'closed')).length; return `<button class="day" data-k="${k}" aria-pressed="${k === cur}"><span class="dow">${DOW[d.getDay()]}</span><span class="dnum">${pad(d.getDate())}/${pad(d.getMonth() + 1)}</span><span class="cnt">${n ? n + (countFree ? ' trống' : ' khung') : '&nbsp;'}</span></button>`; }).join('');
-    el.querySelectorAll('.day').forEach(b => b.onclick = () => onPick(b.dataset.k));
-  }
-  function renderKhach() {
-    renderPrices();
-    if (!selDay) selDay = visibleDays().find(k => S.slots.some(s => s.date === k && slotClass(s) === 'free')) || visibleDays()[0];
-    renderDays($('days'), selDay, k => { selDay = k; renderKhach(); }, true);
-    const list = S.slots.filter(s => s.date === selDay && s.status !== 'closed');
-    $('slots').innerHTML = list.length ? list.map(s => { const c = slotClass(s); const note = c === 'held' ? 'Đang có người giữ' : c === 'sold' ? 'Đã đặt' : c === 'late' ? 'Đã đóng (sát giờ)' : TYPES[s.type].label + ' · ' + s.dur + ' phút'; return `<button class="slot ${c}" data-id="${s.id}" ${c === 'free' ? '' : 'disabled'} aria-pressed="${selSlot === s.id}"><span class="t">${s.time}</span><span class="k">${note}</span><span class="p">${money(s.price)}</span></button>`; }).join('') : '<p class="muted">Bác sĩ chưa mở khung nào cho ngày này.</p>';
-    $('slots').querySelectorAll('.slot.free').forEach(b => b.onclick = () => pickSlot(b.dataset.id));
-  }
-  function show(panel) { ['form-panel', 'pay-panel', 'done-panel', 'crisis-panel'].forEach(p => $(p).hidden = p !== panel); $('pick-panel').hidden = panel === 'pay-panel' || panel === 'done-panel' || panel === 'crisis-panel'; }
-  function pickSlot(id) {
-    selSlot = id; const s = slotById(id);
-    $('form-slot').textContent = `${dayLabel(s.date)}, ${s.time} · ${TYPES[s.type].label} ${s.dur} phút · ${money(s.price)}`;
-    $('form-error').hidden = true; show('form-panel'); renderKhach();
-    $('form-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-  $('f-cancel').onclick = () => { selSlot = null; show(null); renderKhach(); };
-  $('book-form').addEventListener('submit', e => {
-    e.preventDefault();
-    const q = n => { const v = document.querySelector(`input[name=q${n}]:checked`); return v ? Number(v.value) : null; };
-    const f = { name: $('f-name').value.trim(), yob: Number($('f-yob').value), phone: $('f-phone').value.trim(), reason: $('f-reason').value.trim(), screen: [q(1), q(2), q(3)] };
-    const err = !f.name ? 'Bạn chưa nhập họ tên.' : !f.phone ? 'Bạn chưa nhập số điện thoại hoặc Zalo.' : !f.yob ? 'Bạn chưa nhập năm sinh.' : f.yob > new Date().getFullYear() - 18 ? 'Bạn dưới 18 tuổi: cần người giám hộ đồng ý. Phòng khám sẽ liên hệ hướng dẫn.' : f.screen.includes(null) ? 'Bạn chưa trả lời đủ 3 câu hỏi an toàn.' : !$('f-consent').checked ? 'Bạn cần đồng ý với việc xử lý thông tin sức khỏe để đặt lịch.' : '';
-    if (err) { $('form-error').textContent = err; $('form-error').hidden = false; return; }
-    const s = slotById(selSlot);
-    if (f.screen[0] === 1 || f.screen[1] === 1) {
-      const b = mkBooking(s, f, 'Trực tiếp'); b.status = 'crisis'; S.bookings.push(b); save();
-      $('book-form').reset(); selSlot = null; show('crisis-panel'); render(); window.scrollTo({ top: 0, behavior: 'smooth' }); return;
-    }
-    const b = mkBooking(s, f, 'Bài FB: Mất ngủ kéo dài');
-    if (!reserve(s.id, b)) { $('form-error').textContent = 'Khung này vừa có người khác đặt. Bạn chọn khung khác nhé.'; $('form-error').hidden = false; render(); return; }
-    S.bookings.push(b); save(); curBooking = b.id; $('book-form').reset(); selSlot = null;
-    renderPay(); show('pay-panel'); render(); window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-  function drawQR(seedStr) {
-    const c = $('qr'), x = c.getContext('2d'), N = 25, m = 180 / (N + 2);
-    let h = 0; for (const ch of seedStr) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-    const rnd = () => { h ^= h << 13; h >>>= 0; h ^= h >> 17; h ^= h << 5; h >>>= 0; return h / 4294967296; };
-    x.fillStyle = '#fff'; x.fillRect(0, 0, 180, 180); x.fillStyle = '#111';
-    const finder = (cx, cy) => { for (let i = 0; i < 7; i++) for (let j = 0; j < 7; j++) { const edge = i === 0 || i === 6 || j === 0 || j === 6, core = i > 1 && i < 5 && j > 1 && j < 5; if (edge || core) x.fillRect((cx + i + 1) * m, (cy + j + 1) * m, m + 0.5, m + 0.5); } };
-    for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) { const inF = (i < 8 && j < 8) || (i > N - 9 && j < 8) || (i < 8 && j > N - 9); if (!inF && rnd() > 0.52) x.fillRect((i + 1) * m, (j + 1) * m, m + 0.5, m + 0.5); }
-    finder(0, 0); finder(N - 7, 0); finder(0, N - 7);
-  }
-  function renderPay() {
-    const b = bookingById(curBooking); if (!b) return; const s = slotById(b.slotId);
-    const memo = 'THU HO TAMTRI ' + b.code;
-    $('pay-info').innerHTML = `<dt>Khung</dt><dd>${dayLabel(s.date)}, ${s.time}</dd><dt>Dịch vụ</dt><dd>${TYPES[s.type].label}, ${s.dur} phút</dd><dt>Số tiền</dt><dd>${money(b.price)}</dd><dt>Ngân hàng</dt><dd>VIB</dd><dt>Số tài khoản</dt><dd>012323456</dd><dt>Chủ tài khoản</dt><dd>NGUYEN DUY HIEN</dd><dt>Nội dung CK</dt><dd><b>${memo}</b></dd>`;
-    $('qr').src = 'https://img.vietqr.io/image/970441-012323456-compact.png?amount=' + b.price + '&addInfo=' + encodeURIComponent(memo) + '&accountName=' + encodeURIComponent('NGUYEN DUY HIEN');
-    tick();
-  }
-  function tick() {
-    const b = bookingById(curBooking); if (!b || $('pay-panel').hidden) return; const s = slotById(b.slotId);
-    if (!s || s.status !== 'held' || s.bookingId !== b.id) return;
-    const left = Math.max(0, s.holdUntil - Date.now()); $('countdown').textContent = pad(Math.floor(left / 60000)) + ':' + pad(Math.floor(left / 1000) % 60);
-  }
-  $('sim-paid').onclick = () => {
-    const b = bookingById(curBooking); const s = b && slotById(b.slotId);
-    if (!s || s.status !== 'held' || s.bookingId !== b.id) { toast('Khung đã hết thời gian giữ. Tiền về muộn sẽ được báo cho quản trị để hoàn hoặc xếp khung khác.'); show(null); render(); return; }
-    s.status = 'sold'; delete s.holdUntil; b.status = 'paid'; save();
-    $('done-text').textContent = `Hẹn gặp ${b.name} lúc ${s.time}, ${dayLabel(s.date)}. Bác sĩ sẽ gọi video qua Zalo đúng giờ hẹn.`;
-    $('done-info').innerHTML = `<dt>Mã đặt lịch</dt><dd>${b.code}</dd><dt>Link khám</dt><dd>https://kham.vidu.vn/p/${b.code.toLowerCase()}-${b.id}</dd><dt>Nhắc lịch</dt><dd>Trước 24 giờ và trước 1 giờ</dd>`;
-    show('done-panel'); render();
-  };
-  $('sim-expire').onclick = () => { const b = bookingById(curBooking); const s = b && slotById(b.slotId); if (s && s.status === 'held') { s.holdUntil = Date.now() - 1; } expireHolds(); show(null); toast('Hết 10 phút: khung đã mở lại cho người khác.'); };
-  $('done-back').onclick = $('crisis-back').onclick = () => { show(null); render(); };
 
-  // ---------- Bác sĩ ----------
-  function renderBacsi() {
-    const now = Date.now();
-    const appts = S.bookings.filter(b => b.status === 'paid' || b.status === 'crisis').map(b => ({ b, s: slotById(b.slotId) })).filter(x => x.s && (x.b.status === 'crisis' || startOf(x.s) >= now - 3600e3)).sort((a, z) => (a.b.status === 'crisis' ? -1 : 0) - (z.b.status === 'crisis' ? -1 : 0) || startOf(a.s) - startOf(z.s));
-    $('doc-count').textContent = appts.filter(x => x.b.status === 'paid').length + ' ca đã thanh toán';
-    $('doc-appts').innerHTML = appts.length ? appts.map(({ b, s }) => {
-      const flags = ['Ý nghĩ tự hại', 'Một mình, không an toàn', 'Dùng chất'].filter((_, i) => b.screen[i] === 1);
-      const scr = b.status === 'crisis' ? `<span class="pill need">Cần gọi ngay</span> ${flags.join(', ')}` : flags.length ? `<span class="pill held">${flags.join(', ')}</span>` : '<span class="pill paid">Không có dấu hiệu</span>';
-      return `<tr><td class="num">${b.status === 'crisis' ? '<b>Ngay</b>' : `${s.time}<br><span class="small muted">${dayLabel(s.date)}</span>`}</td><td>${esc(b.name)}<br><span class="small muted num">${esc(b.phone)} · ${b.yob}</span></td><td>${TYPES[b.type].label}</td><td>${scr}${b.reason ? `<br><span class="small">${esc(b.reason)}</span>` : ''}</td><td>${b.status === 'paid' ? `<a class="btn ghost sm" href="#bacsi" onclick="return false">Vào phòng khám</a>` : ''}</td></tr>`;
-    }).join('') : '<tr><td colspan="5" class="muted">Chưa có ca nào.</td></tr>';
-
-    $('tpl').innerHTML = S.template.slice().sort((a, b) => ((a.dow + 6) % 7) - ((b.dow + 6) % 7) || a.time.localeCompare(b.time)).map(t => `<div class="tpl-row" data-id="${t.id}">
-      <select id="tpl-dow-${t.id}" aria-label="Thứ" data-f="dow">${[1, 2, 3, 4, 5, 6, 0].map(d => `<option value="${d}" ${d === t.dow ? 'selected' : ''}>${DOW_FULL[d]}</option>`).join('')}</select>
-      <input id="tpl-time-${t.id}" type="time" aria-label="Giờ" data-f="time" value="${t.time}" step="300">
-      <select id="tpl-type-${t.id}" aria-label="Loại khung" data-f="type">${Object.entries(TYPES).map(([k, v]) => `<option value="${k}" ${k === t.type ? 'selected' : ''}>${v.label}</option>`).join('')}</select>
-      <input id="tpl-dur-${t.id}" type="number" aria-label="Số phút" data-f="dur" value="${t.dur}" min="10" step="5">
-      <input id="tpl-price-${t.id}" type="number" aria-label="Giá" data-f="price" value="${t.price}" min="0" step="10000">
-      <button class="btn danger sm rm" data-rm="${t.id}">Bỏ</button></div>`).join('');
-    $('tpl').querySelectorAll('[data-f]').forEach(inp => inp.onchange = () => {
-      const t = S.template.find(x => x.id === inp.closest('.tpl-row').dataset.id), f = inp.dataset.f;
-      t[f] = f === 'dow' || f === 'dur' || f === 'price' ? Number(inp.value) : inp.value;
-      if (f === 'type') { t.dur = TYPES[t.type].dur; }
-      save(); render();
-    });
-    $('tpl').querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { S.template = S.template.filter(t => t.id !== b.dataset.rm); save(); render(); });
-
-    if (!docDay) docDay = visibleDays()[0];
-    renderDays($('doc-days'), docDay, k => { docDay = k; renderBacsi(); }, false);
-    const list = S.slots.filter(s => s.date === docDay);
-    $('doc-slots').innerHTML = list.length ? list.map(s => {
-      const b = s.bookingId && bookingById(s.bookingId);
-      const st = s.status === 'sold' ? `<span class="pill paid">Đã bán</span> <span class="small">${esc(b?.name || '')}</span>` : s.status === 'held' ? '<span class="pill held">Đang giữ</span>' : s.status === 'closed' ? '<span class="pill gone">Đã đóng</span>' : s.status === 'cancelled' ? '<span class="pill need">Đã hủy ca</span>' : '<span class="pill free">Trống</span>';
-      const price = s.status === 'free' || s.status === 'closed' ? `<input type="number" id="price-${s.id}" data-price="${s.id}" value="${s.price}" step="10000" min="0" aria-label="Giá khung ${s.time}" style="max-width:120px;text-align:right">` : money(s.price);
-      const act = s.status === 'free' ? `<button class="btn quiet sm" data-close="${s.id}">Đóng khung</button>` : s.status === 'closed' ? `<button class="btn ghost sm" data-reopen="${s.id}">Mở lại</button>` : s.status === 'sold' ? `<button class="btn danger sm" data-cancel="${s.id}">Hủy ca</button>` : '';
-      return `<tr><td class="num"><b>${s.time}</b></td><td>${TYPES[s.type].label}, ${s.dur}′</td><td class="num">${price}</td><td>${st}</td><td><div class="actions">${act}</div></td></tr>`;
-    }).join('') : '<tr><td colspan="5" class="muted">Ngày này chưa có khung. Thêm vào mẫu tuần rồi bấm "Mở lịch 7 ngày tới".</td></tr>';
-    $('doc-slots').querySelectorAll('[data-price]').forEach(i => i.onchange = () => { const s = slotById(i.dataset.price); if (s.status === 'free' || s.status === 'closed') { s.price = Number(i.value); save(); render(); toast('Đã đổi giá khung ' + s.time + '.'); } });
-    $('doc-slots').querySelectorAll('[data-close]').forEach(b => b.onclick = () => { const s = slotById(b.dataset.close); if (s.status === 'free') { s.status = 'closed'; save(); render(); } });
-    $('doc-slots').querySelectorAll('[data-reopen]').forEach(b => b.onclick = () => { const s = slotById(b.dataset.reopen); s.status = 'free'; save(); render(); });
-    $('doc-slots').querySelectorAll('[data-cancel]').forEach(b => b.onclick = () => { const s = slotById(b.dataset.cancel); const bk = bookingById(s.bookingId); s.status = 'cancelled'; if (bk) bk.status = 'doctor_cancel'; save(); render(); toast('Đã hủy ca. Khách được báo, quản trị cần đổi lịch hoặc hoàn tiền.'); });
-  }
-  $('tpl-add').onclick = () => { S.template.push({ id: uid(), dow: 2, time: '19:00', type: 'first', dur: 45, price: 350000 }); save(); render(); };
-  $('tpl-open').onclick = () => { const n = openWeek(S); save(); render(); toast(n ? `Đã mở thêm ${n} khung cho 7 ngày tới.` : 'Lịch 7 ngày tới đã đủ theo mẫu, không có khung mới.'); };
-
-  // ---------- Quản trị ----------
-  const STATUS = { paid: ['Đã thanh toán', 'paid'], held: ['Đang giữ, chờ tiền', 'held'], expired: ['Hết hạn giữ', 'gone'], crisis: ['Cờ đỏ: liên hệ ngay', 'need'], doctor_cancel: ['Bác sĩ hủy: cần xử lý', 'need'], refunded: ['Đã hoàn tiền', 'gone'] };
-  function renderQuantri() {
-    const month = new Date().getMonth();
-    const paid = S.bookings.filter(b => b.status === 'paid');
-    const rev = paid.filter(b => new Date(b.createdAt).getMonth() === month).reduce((a, b) => a + b.price, 0);
-    const need = S.bookings.filter(b => b.status === 'crisis' || b.status === 'doctor_cancel').length;
-    const free = S.slots.filter(s => slotClass(s) === 'free').length;
-    $('stats').innerHTML = `<div class="stat"><b>${paid.length}</b><span>Ca đã thanh toán</span></div><div class="stat"><b class="num">${(rev / 1e6).toLocaleString('vi-VN', { maximumFractionDigits: 2 })} tr</b><span>Doanh thu tháng này (đ)</span></div><div class="stat"><b>${free}</b><span>Khung còn trống 7 ngày tới</span></div><div class="stat ${need ? 'warn' : ''}"><b>${need}</b><span>Việc cần xử lý</span></div>`;
-    const rows = S.bookings.slice().sort((a, b) => b.createdAt - a.createdAt);
-    $('adm-rows').innerHTML = rows.length ? rows.map(b => {
-      const s = slotById(b.slotId); const [lbl, cls] = STATUS[b.status] || [b.status, 'gone'];
-      const acts = [];
-      if (b.status === 'held') acts.push(`<button class="btn sm" data-confirm="${b.id}">Xác nhận tiền tay</button>`);
-      if ((b.status === 'paid' && !b.rescheduled) || b.status === 'doctor_cancel') acts.push(`<button class="btn quiet sm" data-resched="${b.id}">Đổi lịch</button>`);
-      if (b.status === 'doctor_cancel' || b.status === 'paid') acts.push(`<button class="btn danger sm" data-refund="${b.id}">Hoàn tiền</button>`);
-      return `<tr><td class="num">${b.code}</td><td>${esc(b.name)}<br><span class="small muted num">${esc(b.phone)}</span></td><td>${s ? `${s.time}<br><span class="small muted">${dayLabel(s.date)}</span>` : '-'}</td><td class="num">${money(b.price)}</td><td><span class="pill ${cls}">${lbl}</span>${b.rescheduled ? '<br><span class="small muted">Đã đổi lịch 1 lần</span>' : ''}</td><td class="small">${esc(b.source)}</td><td><div class="actions">${acts.join('')}</div></td></tr>`;
-    }).join('') : '<tr><td colspan="7" class="muted">Chưa có đơn nào.</td></tr>';
-    $('adm-rows').querySelectorAll('[data-confirm]').forEach(x => x.onclick = () => { const b = bookingById(x.dataset.confirm), s = slotById(b.slotId); if (s.status === 'held' && s.bookingId === b.id) { s.status = 'sold'; delete s.holdUntil; b.status = 'paid'; save(); render(); toast('Đã xác nhận thanh toán ' + b.code + '.'); } });
-    $('adm-rows').querySelectorAll('[data-refund]').forEach(x => x.onclick = () => { const b = bookingById(x.dataset.refund), s = slotById(b.slotId); if (s && s.bookingId === b.id) { if (s.status === 'sold') release(s); if (s.status === 'cancelled') { s.status = 'closed'; delete s.bookingId; } } b.status = 'refunded'; save(); render(); toast('Đã ghi nhận hoàn tiền ' + b.code + '.'); });
-    $('adm-rows').querySelectorAll('[data-resched]').forEach(x => x.onclick = () => openResched(x.dataset.resched));
-  }
-  function openResched(id) {
-    reschedId = id; const b = bookingById(id);
-    const opts = S.slots.filter(s => slotClass(s) === 'free' && s.type === b.type);
-    $('resched-title').textContent = `Đổi lịch cho ${b.name} (${b.code})`;
-    $('resched-select').innerHTML = opts.length ? opts.map(s => `<option value="${s.id}">${dayLabel(s.date)}, ${s.time} · ${money(s.price)}</option>`).join('') : '<option value="">Không còn khung trống cùng loại</option>';
-    $('resched-ok').disabled = !opts.length; $('resched-panel').hidden = false; $('resched-panel').scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-  $('resched-cancel').onclick = () => { $('resched-panel').hidden = true; reschedId = null; };
-  $('resched-ok').onclick = () => {
-    const b = bookingById(reschedId), to = slotById($('resched-select').value), from = slotById(b.slotId);
-    if (!to || to.status !== 'free') { toast('Khung mới vừa có người đặt. Chọn khung khác.'); render(); openResched(reschedId); return; }
-    if (from && from.bookingId === b.id) { if (from.status === 'sold') release(from); else if (from.status === 'cancelled') { from.status = 'closed'; delete from.bookingId; } }
-    to.status = 'sold'; to.bookingId = b.id; b.slotId = to.id; b.status = 'paid'; b.rescheduled = 1;
-    save(); $('resched-panel').hidden = true; render(); toast(`Đã chuyển ${b.code} sang ${to.time}, ${dayLabel(to.date)}. Khung cũ mở lại để bán.`);
-  };
-  $('dup-test').onclick = () => {
-    const s = S.slots.find(x => x.status === 'sold');
-    if (!s) { toast('Chưa có khung nào đã bán để thử.'); return; }
-    const ok = reserve(s.id, { id: 'thu' });
-    toast(ok ? 'Lỗi: khung bị bán trùng.' : `Không bán được khung ${s.time} ${dayLabel(s.date)}: khung đã có người mua.`);
-  };
-  $('reset').onclick = () => { S = seed(); selDay = null; docDay = null; curBooking = null; save(); show(null); render(); toast('Đã đặt lại dữ liệu mẫu.'); };
-
-  // ---------- Chung ----------
-  function render() { if (view === 'khach') renderKhach(); if (view === 'bacsi') renderBacsi(); if (view === 'quantri') renderQuantri(); }
-  function setView(v) {
-    view = v;
-    document.querySelectorAll('.view').forEach(sec => { const on = sec.id === 'view-' + v; sec.hidden = !on; sec.style.display = on ? 'grid' : ''; });
-    document.querySelectorAll('.roles button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.view === v)));
+  async function load() {
+    if (!T.ready) { $('not-ready').hidden = false; $('slots').innerHTML = ''; return; }
+    const until = new Date(Date.now() + 21 * 864e5).toISOString();
+    const { data, error } = await T.db.from('slots').select('id,start_at,dur,kind,price,status,hold_until')
+      .gte('start_at', new Date().toISOString()).lte('start_at', until).neq('status', 'closed').order('start_at');
+    if (error) { $('slots').innerHTML = `<p class="muted">${esc(T.errText(error))}</p>`; return; }
+    slots = data || [];
     render();
   }
-  document.querySelectorAll('.roles button').forEach(b => b.onclick = () => { setView(b.dataset.view); try { history.replaceState(null, '', '#' + b.dataset.view); } catch (e) {} });
 
-  S = load();
-  const staff = new URLSearchParams(location.search).has('nhanvien');
-  document.body.classList.toggle('staff', staff);
-  const fromHash = (location.hash || '').slice(1);
-  setView(staff && ['khach', 'bacsi', 'quantri'].includes(fromHash) ? fromHash : 'khach');
-  setInterval(() => { expireHolds(); tick(); }, 1000);
+  function render() {
+    const days = [...new Set(slots.map(s => vnDate(s.start_at)))];
+    if (!days.length) { $('days').innerHTML = ''; $('slots').innerHTML = '<p class="muted">Hiện chưa có khung giờ trống. Bác sĩ mở lịch vào đầu tuần, bạn quay lại sau nhé.</p>'; return; }
+    if (!selDay || !days.includes(selDay)) selDay = days.find(d => slots.some(s => vnDate(s.start_at) === d && state(s) === 'free')) || days[0];
+    $('days').innerHTML = days.map(d => {
+      const list = slots.filter(s => vnDate(s.start_at) === d), free = list.filter(s => state(s) === 'free').length;
+      const dow = new Date(d + 'T12:00:00+07:00').toLocaleDateString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh', weekday: 'short' });
+      return `<button class="day" type="button" data-day="${d}" aria-pressed="${d === selDay}"><span class="dow">${esc(dow)}</span><span class="dnum">${d.slice(8)}/${d.slice(5, 7)}</span><span class="cnt">${free ? free + ' trống' : 'hết'}</span></button>`;
+    }).join('');
+    $('slots').innerHTML = slots.filter(s => vnDate(s.start_at) === selDay).map(s => {
+      const c = state(s), note = c === 'held' ? 'Đang có người giữ' : c === 'sold' ? 'Đã đặt' : c === 'late' ? 'Đã đóng' : money(s.price);
+      return `<button class="slot ${c}" type="button" data-id="${s.id}" ${c !== 'free' ? 'disabled' : ''} aria-pressed="${s.id === selSlot}"><span class="t">${vnTime(s.start_at)}</span><span class="k">${esc(T.kindLabel(s.kind))} · ${s.dur} phút</span><span class="p">${note}</span></button>`;
+    }).join('');
+    document.querySelectorAll('.day').forEach(b => b.onclick = () => { selDay = b.dataset.day; render(); });
+    document.querySelectorAll('.slot.free').forEach(b => b.onclick = () => pick(b.dataset.id));
+  }
+
+  function pick(id) {
+    selSlot = id; const s = slots.find(x => x.id === id);
+    $('form-slot').textContent = `${vnDay(s.start_at)}, ${vnTime(s.start_at)} · ${T.kindLabel(s.kind)} ${s.dur} phút · ${money(s.price)}`;
+    $('form-error').hidden = true; render(); show('form-panel');
+  }
+  $('f-cancel').onclick = () => { selSlot = null; show(null); render(); };
+
+  function formError(msg) { $('form-error').textContent = msg; $('form-error').hidden = false; $('form-error').scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+
+  $('book-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const q = n => { const v = document.querySelector(`input[name=q${n}]:checked`); return v ? Number(v.value) : null; };
+    const f = { name: $('f-name').value.trim(), yob: Number($('f-yob').value), phone: $('f-phone').value.replace(/[\s.]+/g, ''), reason: $('f-reason').value.trim(), screen: [q(1), q(2), q(3)] };
+    const err = f.name.length < 2 ? 'Bạn chưa nhập họ tên.' : !/^(\+?84|0)\d{8,10}$/.test(f.phone) ? 'Số điện thoại Zalo chưa đúng.' : !f.yob ? 'Bạn chưa nhập năm sinh.'
+      : f.yob > new Date().getFullYear() - 18 ? 'Dịch vụ dành cho người từ 18 tuổi. Người dưới 18 tuổi cần người giám hộ đặt giúp.'
+      : f.screen.includes(null) ? 'Bạn chưa trả lời đủ 3 câu hỏi an toàn.' : !$('f-consent').checked ? 'Bạn cần đồng ý với việc xử lý thông tin để đặt lịch.' : '';
+    if (err) return formError(err);
+    $('f-submit').disabled = true; $('f-submit').textContent = 'Đang giữ chỗ…';
+    const { data, error } = await T.db.rpc('book_slot', { p_slot: selSlot, p_name: f.name, p_yob: f.yob, p_phone: f.phone, p_reason: f.reason || null, p_screen: f.screen });
+    $('f-submit').disabled = false; $('f-submit').textContent = 'Giữ chỗ và thanh toán';
+    if (error) { formError(T.errText(error)); load(); return; }
+    $('book-form').reset(); selSlot = null;
+    if (data.crisis) { show('crisis-panel'); return; }
+    cur = data; showPay(); load();
+  });
+
+  function showPay() {
+    const memo = C.bank.memoPrefix + ' ' + cur.code;
+    $('pay-info').innerHTML = `<dt>Khung</dt><dd>${esc(vnDay(cur.start_at))}, ${vnTime(cur.start_at)}</dd><dt>Dịch vụ</dt><dd>${esc(T.kindLabel(cur.kind))}, ${cur.dur} phút</dd><dt>Số tiền</dt><dd>${money(cur.price)}</dd><dt>Ngân hàng</dt><dd>${esc(C.bank.name)}</dd><dt>Số tài khoản</dt><dd>${esc(C.bank.account)}</dd><dt>Chủ tài khoản</dt><dd>${esc(C.bank.holder)}</dd><dt>Nội dung CK</dt><dd><b>${esc(memo)}</b></dd>`;
+    $('qr').src = T.qrUrl(cur.price, memo);
+    show('pay-panel'); tick();
+    clearInterval(pollH); pollH = setInterval(poll, 8000);
+  }
+
+  function tick() {
+    if (!cur || $('pay-panel').hidden) return;
+    const left = Math.max(0, new Date(cur.hold_until).getTime() - Date.now());
+    $('countdown').textContent = pad(Math.floor(left / 60000)) + ':' + pad(Math.floor(left / 1000) % 60);
+  }
+
+  async function poll() {
+    if (!cur) return;
+    const { data } = await T.db.rpc('booking_status', { p_code: cur.code });
+    if (data === 'paid') {
+      clearInterval(pollH);
+      $('done-text').textContent = `Hẹn bạn lúc ${vnTime(cur.start_at)}, ${vnDay(cur.start_at)}. Mã khám ${cur.code}.`;
+      show('done-panel'); cur = null; return;
+    }
+    if (data === 'expired' || data === 'cancelled') {
+      clearInterval(pollH);
+      $('lost-text').textContent = `Khung giờ đã được mở lại cho người khác. Nếu bạn đã chuyển khoản, đừng lo: nhắn Zalo cho phòng khám kèm mã ${cur.code}, phòng khám sẽ xếp giờ khác hoặc hoàn tiền.`;
+      show('lost-panel'); cur = null; load();
+    }
+  }
+
+  function copy(text, btn) {
+    const old = btn.textContent;
+    const ok = () => { btn.textContent = 'Đã sao chép'; setTimeout(() => { btn.textContent = old; }, 2000); };
+    try { navigator.clipboard.writeText(text).then(ok, () => T.toast(text)); } catch (e) { T.toast(text); }
+  }
+  $('copy-memo').onclick = e => cur && copy(C.bank.memoPrefix + ' ' + cur.code, e.currentTarget);
+  $('copy-acc').onclick = e => copy(C.bank.account, e.currentTarget);
+  $('lost-back').onclick = () => { show(null); load(); };
+
+  load();
+  setInterval(tick, 1000);
+  setInterval(() => { if (!$('pick-panel').hidden && $('form-panel').hidden) load(); }, 30000);
 })();
 </script>
+</body>
+</html>

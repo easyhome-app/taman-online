@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Quản lý | Tâm Trí Online</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Lora:wght@500;600&display=swap">
+<link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div>
+      <div style="font-weight:600">Tâm Trí · Quản lý</div>
+      <div class="small muted" id="who"></div>
+    </div>
+    <div class="row" id="nav" hidden>
+      <div class="roles" role="tablist" aria-label="Mục">
+        <button role="tab" data-tab="ca" aria-selected="true">Ca đặt</button>
+        <button role="tab" data-tab="lich" aria-selected="false">Khung giờ</button>
+      </div>
+      <button class="btn quiet sm" id="logout" type="button">Đăng xuất</button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="notice" id="not-ready" hidden>Chưa kết nối cơ sở dữ liệu. Điền Project URL và khóa publishable vào file assets/config.js.</div>
+
+  <!-- Đăng nhập -->
+  <section class="panel login" id="login" hidden>
+    <h2>Đăng nhập</h2>
+    <form id="login-form" novalidate>
+      <label>Email<input type="email" id="l-email" autocomplete="username"></label>
+      <label>Mật khẩu<input type="password" id="l-pass" autocomplete="current-password"></label>
+      <p class="small" id="l-error" style="color:var(--danger)" hidden></p>
+      <button class="btn" type="submit" id="l-submit">Đăng nhập</button>
+    </form>
+  </section>
+
+  <!-- Ca đặt -->
+  <section id="tab-ca" style="display:grid;gap:20px" hidden>
+    <div class="stats" id="stats"></div>
+    <div class="panel">
+      <div class="row between">
+        <h2>Ca đặt</h2>
+        <button class="btn quiet sm" id="reload" type="button">Tải lại</button>
+      </div>
+      <div class="filters" id="filters">
+        <button type="button" data-f="todo" aria-pressed="true">Cần xử lý</button>
+        <button type="button" data-f="upcoming" aria-pressed="false">Lịch sắp tới</button>
+        <button type="button" data-f="all" aria-pressed="false">Tất cả</button>
+      </div>
+      <div class="table-wrap"><table class="stack">
+        <thead><tr><th>Giờ khám</th><th>Khách</th><th>Mã · Tiền</th><th>Trạng thái</th><th></th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table></div>
+      <p class="small muted" id="admin-hint">Đối chiếu sao kê VIB theo nội dung "THU HO TAMTRI + mã", đúng số tiền rồi mới bấm "Đã nhận tiền".</p>
+    </div>
+  </section>
+
+  <!-- Khung giờ -->
+  <section id="tab-lich" style="display:grid;gap:20px" hidden>
+    <div class="panel">
+      <h2>Mở khung giờ</h2>
+      <form id="slot-form" novalidate>
+        <div class="grid2">
+          <label>Ngày<input type="date" id="s-date"></label>
+          <label>Loại khám<select id="s-kind"></select></label>
+          <label>Giá (đồng)<input type="number" id="s-price" step="10000" min="0"></label>
+        </div>
+        <label>Các giờ bắt đầu, cách nhau bằng dấu phẩy<input type="text" id="s-times" placeholder="19:00, 20:00, 21:00"></label>
+        <label class="check"><input type="checkbox" id="s-week">Lặp lại cùng giờ cho 7 ngày liên tiếp kể từ ngày đã chọn</label>
+        <p class="small" id="s-error" style="color:var(--danger)" hidden></p>
+        <div class="row"><button class="btn" type="submit" id="s-submit">Mở khung</button></div>
+      </form>
+    </div>
+    <div class="panel">
+      <h2>Khung giờ 3 tuần tới</h2>
+      <div class="table-wrap"><table class="stack">
+        <thead><tr><th>Ngày</th><th>Giờ</th><th>Loại · Giá</th><th>Trạng thái</th><th></th></tr></thead>
+        <tbody id="slot-rows"></tbody>
+      </table></div>
+    </div>
+  </section>
+</main>
+
+<script src="../assets/supabase.js"></script>
+<script src="../assets/config.js"></script>
+<script src="../assets/common.js"></script>
+<script>
+(function () {
+  const { $, esc, money, vnDate, vnTime, vnDay } = T;
+  const C = window.TAMTRI;
+  let role = null, bookings = [], slotMap = {}, filter = 'todo', tab = 'ca';
+
+  if (!T.ready) { $('not-ready').hidden = false; return; }
+  const db = T.db;
+
+  const STATUS = { held: ['Chờ tiền', 'held'], paid: ['Đã thanh toán', 'paid'], expired: ['Hết hạn giữ', 'gone'], cancelled: ['Đã hủy', 'gone'], crisis: ['Cờ đỏ: gọi ngay', 'need'] };
+  const SLOT_STATUS = { open: ['Trống', 'free'], held: ['Đang giữ', 'held'], sold: ['Đã bán', 'paid'], closed: ['Đã đóng', 'gone'] };
+
+  async function start() {
+    const { data: { session } } = await db.auth.getSession();
+    if (!session) { $('login').hidden = false; $('nav').hidden = true; $('tab-ca').hidden = $('tab-lich').hidden = true; $('who').textContent = ''; return; }
+    const { data: me } = await db.from('staff').select('role,email').eq('user_id', session.user.id).maybeSingle();
+    if (!me) { $('login').hidden = false; $('l-error').textContent = 'Tài khoản này chưa được cấp quyền quản lý hoặc bác sĩ.'; $('l-error').hidden = false; await db.auth.signOut(); return; }
+    role = me.role;
+    $('who').textContent = `${me.email} · ${role === 'admin' ? 'Quản lý' : 'Bác sĩ'}`;
+    $('login').hidden = true; $('nav').hidden = false; $('admin-hint').hidden = role !== 'admin';
+    setTab(tab); loadAll();
+  }
+
+  $('login-form').addEventListener('submit', async e => {
+    e.preventDefault(); $('l-error').hidden = true; $('l-submit').disabled = true;
+    const { error } = await db.auth.signInWithPassword({ email: $('l-email').value.trim(), password: $('l-pass').value });
+    $('l-submit').disabled = false;
+    if (error) { $('l-error').textContent = T.errText(error); $('l-error').hidden = false; return; }
+    start();
+  });
+  $('logout').onclick = async () => { await db.auth.signOut(); role = null; start(); };
+
+  function setTab(t) {
+    tab = t;
+    document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === t)));
+    $('tab-ca').hidden = t !== 'ca'; $('tab-lich').hidden = t !== 'lich';
+  }
+  document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => setTab(b.dataset.tab));
+
+  async function loadAll() {
+    const since = new Date(Date.now() - 60 * 864e5).toISOString();
+    const until = new Date(Date.now() + 21 * 864e5).toISOString();
+    const [b, s] = await Promise.all([
+      db.from('bookings').select('*').gte('created_at', since).order('created_at', { ascending: false }),
+      db.from('slots').select('*').gte('start_at', new Date(Date.now() - 60 * 864e5).toISOString()).lte('start_at', until).order('start_at')
+    ]);
+    if (b.error || s.error) { T.toast(T.errText(b.error || s.error)); return; }
+    bookings = b.data; slotMap = Object.fromEntries(s.data.map(x => [x.id, x]));
+    renderStats(); renderRows(); renderSlots(s.data);
+  }
+  $('reload').onclick = loadAll;
+  setInterval(() => { if (role) loadAll(); }, 30000);
+
+  function renderStats() {
+    const today = vnDate(new Date()), month = today.slice(0, 7);
+    const paid = bookings.filter(b => b.status === 'paid');
+    const todayCount = paid.filter(b => slotMap[b.slot_id] && vnDate(slotMap[b.slot_id].start_at) === today).length;
+    const waiting = bookings.filter(b => b.status === 'held').length;
+    const crisis = bookings.filter(b => b.status === 'crisis').length;
+    const rev = paid.filter(b => b.paid_at && vnDate(b.paid_at).slice(0, 7) === month).reduce((a, b) => a + b.price, 0);
+    $('stats').innerHTML = `<div class="stat"><b>${todayCount}</b><span>Ca khám hôm nay</span></div><div class="stat"><b>${waiting}</b><span>Đang chờ tiền</span></div><div class="stat ${crisis ? 'warn' : ''}"><b>${crisis}</b><span>Cờ đỏ cần gọi</span></div>` +
+      (role === 'admin' ? `<div class="stat"><b class="num">${money(rev)}</b><span>Đã thu tháng này</span></div>` : '');
+  }
+
+  function renderRows() {
+    const now = Date.now();
+    let list = bookings;
+    if (filter === 'todo') list = bookings.filter(b => b.status === 'held' || b.status === 'crisis');
+    if (filter === 'upcoming') list = bookings.filter(b => b.status === 'paid' && slotMap[b.slot_id] && new Date(slotMap[b.slot_id].start_at).getTime() > now - 3600e3)
+      .sort((a, b) => new Date(slotMap[a.slot_id].start_at) - new Date(slotMap[b.slot_id].start_at));
+    $('rows').innerHTML = list.length ? list.map(b => {
+      const s = slotMap[b.slot_id], st = STATUS[b.status] || [b.status, 'gone'];
+      const when = s ? `${esc(vnDay(s.start_at))}<br><b>${vnTime(s.start_at)}</b> · ${esc(T.kindLabel(s.kind))}` : '<span class="muted">Không giữ khung</span>';
+      const zalo = 'https://zalo.me/' + encodeURIComponent(b.phone.replace(/^\+?84/, '0'));
+      const screen = b.screen.map((v, i) => v ? ['Ý nghĩ tự hại', 'Ở một mình, không an toàn', 'Dùng rượu, chất kích thích'][i] : null).filter(Boolean).join(', ');
+      const actions = role === 'admin' && (b.status === 'held' || b.status === 'expired') && b.slot_id
+        ? `<button class="btn sm" data-paid="${b.id}">Đã nhận tiền</button><button class="btn danger sm" data-cancel="${b.id}">Hủy</button>`
+        : role === 'admin' && b.status === 'paid' ? `<button class="btn danger sm" data-cancel="${b.id}">Hủy ca</button>` : '';
+      return `<tr><td>${when}</td><td><b>${esc(b.name)}</b> (${b.yob})<br><a href="${zalo}" target="_blank" rel="noopener">${esc(b.phone)}</a>${b.reason ? `<br><span class="small muted">${esc(b.reason)}</span>` : ''}${screen ? `<br><span class="small" style="color:var(--danger)">${esc(screen)}</span>` : ''}</td><td class="num">${esc(b.code)}<br>${money(b.price)}</td><td><span class="pill ${st[1]}">${st[0]}</span></td><td><div class="actions">${actions}</div></td></tr>`;
+    }).join('') : '<tr><td colspan="5" class="muted">Không có ca nào.</td></tr>';
+    document.querySelectorAll('[data-paid]').forEach(x => x.onclick = () => act('confirm_paid', x.dataset.paid, 'Xác nhận đã nhận đủ tiền cho ca này?'));
+    document.querySelectorAll('[data-cancel]').forEach(x => x.onclick = () => act('cancel_booking', x.dataset.cancel, 'Hủy ca này và mở lại khung giờ?'));
+  }
+  document.querySelectorAll('[data-f]').forEach(b => b.onclick = () => {
+    filter = b.dataset.f; document.querySelectorAll('[data-f]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); renderRows();
+  });
+
+  async function act(fn, id, question) {
+    if (!confirm(question)) return;
+    const { error } = await db.rpc(fn, { p_booking: id });
+    if (error) { T.toast(T.errText(error)); return; }
+    T.toast(fn === 'confirm_paid' ? 'Đã xác nhận. Nhớ nhắn Zalo cho khách.' : 'Đã hủy ca.');
+    loadAll();
+  }
+
+  // Khung giờ
+  $('s-kind').innerHTML = Object.entries(C.kinds).map(([k, v]) => `<option value="${k}">${esc(v.label)} (${v.dur} phút)</option>`).join('');
+  const setPrice = () => { $('s-price').value = C.kinds[$('s-kind').value].price; };
+  $('s-kind').onchange = setPrice; setPrice();
+  $('s-date').value = vnDate(new Date(Date.now() + 864e5));
+
+  $('slot-form').addEventListener('submit', async e => {
+    e.preventDefault(); $('s-error').hidden = true;
+    const times = $('s-times').value.split(/[,;\s]+/).map(t => t.trim().replace(/h$/i, ':00').replace(/h/i, ':').replace(/^(\d{1,2})$/, '$1:00')).filter(Boolean)
+      .map(t => t.replace(/^(\d):/, '0$1:'));
+    const bad = times.find(t => !/^([01]\d|2[0-3]):[0-5]\d$/.test(t));
+    if (!$('s-date').value || !times.length || bad) { $('s-error').textContent = bad ? `Giờ "${bad}" chưa đúng, ví dụ 19:00.` : 'Bạn chọn ngày và nhập ít nhất một giờ.'; $('s-error').hidden = false; return; }
+    const kind = $('s-kind').value, dur = C.kinds[kind].dur, price = Number($('s-price').value) || C.kinds[kind].price;
+    const days = $('s-week').checked ? 7 : 1, rows = [];
+    for (let i = 0; i < days; i++) {
+      const d = vnDate(new Date(new Date($('s-date').value + 'T12:00:00+07:00').getTime() + i * 864e5));
+      times.forEach(t => { const iso = T.vnToIso(d, t); if (new Date(iso).getTime() > Date.now()) rows.push({ start_at: iso, dur, kind, price }); });
+    }
+    if (!rows.length) { $('s-error').textContent = 'Các giờ này đã qua.'; $('s-error').hidden = false; return; }
+    $('s-submit').disabled = true;
+    const { data, error } = await db.from('slots').upsert(rows, { onConflict: 'start_at', ignoreDuplicates: true }).select('id');
+    $('s-submit').disabled = false;
+    if (error) { $('s-error').textContent = T.errText(error); $('s-error').hidden = false; return; }
+    const added = (data || []).length;
+    T.toast(`Đã mở ${added} khung${rows.length > added ? `, bỏ qua ${rows.length - added} khung trùng giờ` : ''}.`);
+    $('s-times').value = ''; loadAll();
+  });
+
+  function renderSlots(all) {
+    const list = all.filter(s => new Date(s.start_at).getTime() > Date.now() - 3600e3);
+    $('slot-rows').innerHTML = list.length ? list.map(s => {
+      let st = s.status;
+      if (st === 'held' && new Date(s.hold_until).getTime() < Date.now()) st = 'open';
+      const [label, cls] = SLOT_STATUS[st];
+      const btn = st === 'open' ? `<button class="btn quiet sm" data-close="${s.id}">Đóng</button><button class="btn danger sm" data-del="${s.id}">Xóa</button>`
+        : st === 'closed' ? `<button class="btn quiet sm" data-open="${s.id}">Mở lại</button>` : '';
+      return `<tr><td>${esc(vnDay(s.start_at))}</td><td><b>${vnTime(s.start_at)}</b></td><td>${esc(T.kindLabel(s.kind))} · ${money(s.price)}</td><td><span class="pill ${cls}">${label}</span></td><td><div class="actions">${btn}</div></td></tr>`;
+    }).join('') : '<tr><td colspan="5" class="muted">Chưa có khung nào. Mở khung ở trên.</td></tr>';
+    const upd = async (id, patch, msg) => { const { error } = await db.from('slots').update(patch).eq('id', id); if (error) return T.toast(T.errText(error)); T.toast(msg); loadAll(); };
+    document.querySelectorAll('[data-close]').forEach(x => x.onclick = () => upd(x.dataset.close, { status: 'closed', hold_until: null }, 'Đã đóng khung.'));
+    document.querySelectorAll('[data-open]').forEach(x => x.onclick = () => upd(x.dataset.open, { status: 'open' }, 'Đã mở lại khung.'));
+    document.querySelectorAll('[data-del]').forEach(x => x.onclick = async () => {
+      if (!confirm('Xóa khung giờ này?')) return;
+      const { error } = await db.from('slots').delete().eq('id', x.dataset.del).eq('status', 'open');
+      if (error) return T.toast(T.errText(error)); T.toast('Đã xóa khung.'); loadAll();
+    });
+  }
+
+  start();
+})();
+</script>
+</body>
+</html>
