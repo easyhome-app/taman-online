@@ -175,3 +175,4 @@ input[type=date], input[type=password] { border: 1px solid var(--line); border-r
   table.stack td { border: 0; padding: 0; }
   table.stack td.num { text-align: left; }
 }
+.slots > p { grid-column: 1 / -1; }
