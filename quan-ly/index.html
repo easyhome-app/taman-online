@@ -21,6 +21,7 @@
       <div class="roles" role="tablist" aria-label="Mục">
         <button role="tab" data-tab="ca" aria-selected="true">Ca đặt</button>
         <button role="tab" data-tab="lich" aria-selected="false">Khung giờ</button>
+        <button role="tab" data-tab="tk" aria-selected="false">Tài khoản</button>
       </div>
       <button class="btn quiet sm" id="logout" type="button">Đăng xuất</button>
     </div>
@@ -86,6 +87,20 @@
       </table></div>
     </div>
   </section>
+
+  <!-- Tài khoản: đổi mật khẩu -->
+  <section id="tab-tk" style="display:grid;gap:20px" hidden>
+    <div class="panel login">
+      <h2>Đổi mật khẩu</h2>
+      <form id="pw-form" novalidate>
+        <label>Mật khẩu hiện tại<input type="password" id="pw-old" autocomplete="current-password"></label>
+        <label>Mật khẩu mới (ít nhất 8 ký tự)<input type="password" id="pw-new" autocomplete="new-password"></label>
+        <label>Nhập lại mật khẩu mới<input type="password" id="pw-new2" autocomplete="new-password"></label>
+        <p class="small" id="pw-error" style="color:var(--danger)" hidden></p>
+        <button class="btn" type="submit" id="pw-submit">Đổi mật khẩu</button>
+      </form>
+    </div>
+  </section>
 </main>
 
 <script src="../assets/supabase.js"></script>
@@ -95,7 +110,7 @@
 (function () {
   const { $, esc, money, vnDate, vnTime, vnDay } = T;
   const C = window.TAMTRI;
-  let role = null, bookings = [], slotMap = {}, filter = 'todo', tab = 'ca';
+  let myEmail = '', role = null, bookings = [], slotMap = {}, filter = 'todo', tab = 'ca';
 
   if (!T.ready) { $('not-ready').hidden = false; return; }
   const db = T.db;
@@ -105,10 +120,10 @@
 
   async function start() {
     const { data: { session } } = await db.auth.getSession();
-    if (!session) { $('login').hidden = false; $('nav').hidden = true; $('tab-ca').hidden = $('tab-lich').hidden = true; $('who').textContent = ''; return; }
+    if (!session) { $('login').hidden = false; $('nav').hidden = true; $('tab-ca').hidden = $('tab-lich').hidden = $('tab-tk').hidden = true; $('who').textContent = ''; return; }
     const { data: me } = await db.from('staff').select('role,email').eq('user_id', session.user.id).maybeSingle();
     if (!me) { $('login').hidden = false; $('l-error').textContent = 'Tài khoản này chưa được cấp quyền quản lý hoặc bác sĩ.'; $('l-error').hidden = false; await db.auth.signOut(); return; }
-    role = me.role;
+    role = me.role; myEmail = me.email;
     $('who').textContent = `${me.email} · ${role === 'admin' ? 'Quản lý' : 'Bác sĩ'}`;
     $('login').hidden = true; $('nav').hidden = false; $('admin-hint').hidden = role !== 'admin';
     setTab(tab); loadAll();
@@ -126,8 +141,27 @@
   function setTab(t) {
     tab = t;
     document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === t)));
-    $('tab-ca').hidden = t !== 'ca'; $('tab-lich').hidden = t !== 'lich';
+    $('tab-ca').hidden = t !== 'ca'; $('tab-lich').hidden = t !== 'lich'; $('tab-tk').hidden = t !== 'tk';
   }
+
+  // Đổi mật khẩu: kiểm tra mật khẩu hiện tại bằng cách đăng nhập lại, rồi mới đặt mật khẩu mới
+  $('pw-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const err = m => { $('pw-error').textContent = m; $('pw-error').hidden = false; };
+    $('pw-error').hidden = true;
+    const oldPw = $('pw-old').value, newPw = $('pw-new').value;
+    if (!oldPw) return err('Nhập mật khẩu hiện tại.');
+    if (newPw.length < 8) return err('Mật khẩu mới cần ít nhất 8 ký tự.');
+    if (newPw !== $('pw-new2').value) return err('Hai lần nhập mật khẩu mới chưa khớp.');
+    if (newPw === oldPw) return err('Mật khẩu mới phải khác mật khẩu hiện tại.');
+    $('pw-submit').disabled = true;
+    const check = await db.auth.signInWithPassword({ email: myEmail, password: oldPw });
+    if (check.error) { $('pw-submit').disabled = false; return err('Mật khẩu hiện tại chưa đúng.'); }
+    const { error } = await db.auth.updateUser({ password: newPw });
+    $('pw-submit').disabled = false;
+    if (error) return err(T.errText(error));
+    $('pw-form').reset(); T.toast('Đã đổi mật khẩu. Lần sau đăng nhập bằng mật khẩu mới.');
+  });
   document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => setTab(b.dataset.tab));
 
   async function loadAll() {
