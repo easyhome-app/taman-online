@@ -116,7 +116,7 @@
   const C = window.TAMTRI;
   let slots = [], selDay = null, selSlot = null, cur = null, pollH = null;
 
-  $('price-chips').innerHTML = Object.values(C.kinds).map(k => `<span class="chip"><b>${esc(k.label)}</b> ${k.dur} phút · ${money(k.price)}</span>`).join('');
+  $('price-chips').innerHTML = Object.values(C.kinds).map(k => `<span class="chip"><b>${esc(k.label)}</b> ${money(k.price)}</span>`).join('');
 
   const panels = ['form-panel', 'pay-panel', 'done-panel', 'lost-panel', 'crisis-panel'];
   function show(id) {
@@ -154,7 +154,7 @@
     }).join('');
     $('slots').innerHTML = slots.filter(s => vnDate(s.start_at) === selDay).map(s => {
       const c = state(s), note = c === 'held' ? 'Đang có người giữ' : c === 'sold' ? 'Đã đặt' : c === 'late' ? 'Đã đóng' : money(s.price);
-      return `<button class="slot ${c}" type="button" data-id="${s.id}" ${c !== 'free' ? 'disabled' : ''} aria-pressed="${s.id === selSlot}"><span class="t">${vnTime(s.start_at)}</span><span class="k">${esc(T.kindLabel(s.kind))} · ${s.dur} phút</span><span class="p">${note}</span></button>`;
+      return `<button class="slot ${c}" type="button" data-id="${s.id}" ${c !== 'free' ? 'disabled' : ''} aria-pressed="${s.id === selSlot}"><span class="t">${vnTime(s.start_at)}</span><span class="k">${esc(T.kindLabel(s.kind))}</span><span class="p">${note}</span></button>`;
     }).join('');
     document.querySelectorAll('.day').forEach(b => b.onclick = () => { selDay = b.dataset.day; render(); });
     document.querySelectorAll('.slot.free').forEach(b => b.onclick = () => pick(b.dataset.id));
@@ -162,7 +162,7 @@
 
   function pick(id) {
     selSlot = id; const s = slots.find(x => x.id === id);
-    $('form-slot').textContent = `${vnDay(s.start_at)}, ${vnTime(s.start_at)} · ${T.kindLabel(s.kind)} ${s.dur} phút · ${money(s.price)}`;
+    $('form-slot').textContent = `${vnDay(s.start_at)}, ${vnTime(s.start_at)} · ${T.kindLabel(s.kind)} · ${money(s.price)}`;
     $('form-error').hidden = true; render(); show('form-panel');
   }
   $('f-cancel').onclick = () => { selSlot = null; show(null); render(); };
@@ -189,7 +189,7 @@
 
   function showPay() {
     const memo = C.bank.memoPrefix + ' ' + cur.code;
-    $('pay-info').innerHTML = `<dt>Khung</dt><dd>${esc(vnDay(cur.start_at))}, ${vnTime(cur.start_at)}</dd><dt>Dịch vụ</dt><dd>${esc(T.kindLabel(cur.kind))}, ${cur.dur} phút</dd><dt>Số tiền</dt><dd>${money(cur.price)}</dd><dt>Ngân hàng</dt><dd>${esc(C.bank.name)}</dd><dt>Số tài khoản</dt><dd>${esc(C.bank.account)}</dd><dt>Chủ tài khoản</dt><dd>${esc(C.bank.holder)}</dd><dt>Nội dung CK</dt><dd><b>${esc(memo)}</b></dd>`;
+    $('pay-info').innerHTML = `<dt>Khung</dt><dd>${esc(vnDay(cur.start_at))}, ${vnTime(cur.start_at)}</dd><dt>Dịch vụ</dt><dd>${esc(T.kindLabel(cur.kind))}</dd><dt>Số tiền</dt><dd>${money(cur.price)}</dd><dt>Ngân hàng</dt><dd>${esc(C.bank.name)}</dd><dt>Số tài khoản</dt><dd>${esc(C.bank.account)}</dd><dt>Chủ tài khoản</dt><dd>${esc(C.bank.holder)}</dd><dt>Nội dung CK</dt><dd><b>${esc(memo)}</b></dd>`;
     $('qr').src = T.qrUrl(cur.price, memo);
     show('pay-panel'); tick();
     clearInterval(pollH); pollH = setInterval(poll, 8000);
