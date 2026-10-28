@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Đặt lịch khám | Tâm Trí Online</title>
-<meta name="description" content="Chọn giờ khám sức khỏe tinh thần online qua video Zalo với ThS. BS. Nguyễn Thị Thu Hằng.">
+<title>Đặt lịch trò chuyện | Tâm Trí Online</title>
+<meta name="description" content="Chọn giờ trò chuyện, nghe tư vấn sức khỏe tinh thần qua video Zalo cùng ThS. BS. Nguyễn Thị Thu Hằng.">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Lora:wght@500;600&display=swap">
 <link rel="stylesheet" href="../assets/app.css">
@@ -14,7 +14,7 @@
 <div class="topbar">
   <div class="wrap">
     <a href="../" style="font-weight:600;color:inherit;text-decoration:none">Tâm Trí Online</a>
-    <span class="small muted">Đặt lịch khám</span>
+    <span class="small muted">Đặt lịch trò chuyện</span>
   </div>
 </div>
 <div class="sos">
@@ -28,9 +28,9 @@
 <main class="wrap">
   <div class="panel">
     <div class="doctor">
-      <img class="avatar" src="../bac-si-thu-hang.jpg" alt="" width="64" height="64" style="object-fit:cover;object-position:top">
+      <img class="avatar" src="../bac-si-thu-hang-vuong.jpg" alt="" width="64" height="64" style="object-fit:cover">
       <div style="display:grid;gap:4px;min-width:0">
-        <h1>Khám sức khỏe tinh thần online cho người trẻ</h1>
+        <h1>Trò chuyện cùng bác sĩ về sức khỏe tinh thần</h1>
         <p class="muted">ThS. BS. Nguyễn Thị Thu Hằng, chuyên khoa Tâm thần, Bác sĩ nội trú ĐH Y Hà Nội</p>
       </div>
     </div>
@@ -61,12 +61,12 @@
       <label>Điều bạn muốn trao đổi (không bắt buộc, chỉ bác sĩ đọc)<input type="text" id="f-reason" maxlength="160" placeholder="Ví dụ: mất ngủ kéo dài"></label>
       <fieldset>
         <legend>3 câu hỏi an toàn</legend>
-        <p class="small muted">Bác sĩ hỏi để biết bạn đang ổn đến đâu. Bạn cứ trả lời thật, câu trả lời nào cũng không làm bạn mất lịch khám.</p>
+        <p class="small muted">Bác sĩ hỏi để biết bạn đang ổn đến đâu. Bạn cứ trả lời thật, câu trả lời nào cũng không làm bạn mất lịch hẹn.</p>
         <div class="yn"><span>Gần đây bạn có ý nghĩ làm hại bản thân hoặc không muốn sống nữa không?</span><span class="opts"><label><input type="radio" name="q1" value="1">Có</label><label><input type="radio" name="q1" value="0">Không</label></span></div>
         <div class="yn"><span>Bạn đang ở một mình và cảm thấy không an toàn không?</span><span class="opts"><label><input type="radio" name="q2" value="1">Có</label><label><input type="radio" name="q2" value="0">Không</label></span></div>
         <div class="yn"><span>Bạn có đang dùng rượu, chất kích thích để chịu đựng không?</span><span class="opts"><label><input type="radio" name="q3" value="1">Có</label><label><input type="radio" name="q3" value="0">Không</label></span></div>
       </fieldset>
-      <label class="check"><input type="checkbox" id="f-consent">Tôi đồng ý để phòng khám xử lý thông tin sức khỏe của tôi nhằm đặt lịch và khám bệnh.</label>
+      <label class="check"><input type="checkbox" id="f-consent">Tôi đồng ý để Tâm Trí xử lý thông tin sức khỏe của tôi nhằm đặt lịch và để bác sĩ tư vấn.</label>
       <p class="small" id="form-error" style="color:var(--danger)" hidden></p>
       <p class="small muted">Bước tiếp theo: chuyển khoản bằng mã QR. Khung giờ được giữ riêng cho bạn 30 phút.</p>
       <div class="row"><button class="btn" type="submit" id="f-submit">Giữ chỗ và thanh toán</button><button class="btn quiet" type="button" id="f-cancel">Chọn khung khác</button></div>
@@ -79,13 +79,13 @@
       <div style="display:grid;gap:6px;justify-items:start"><img class="qr" id="qr" width="180" height="180" alt="Mã QR chuyển khoản VIB"><span class="small muted">Quét bằng app ngân hàng, số tiền và nội dung tự điền.</span></div>
       <dl class="kv" id="pay-info"></dl>
     </div>
-    <p class="small"><b>Thanh toán trước 100% để xác nhận lịch khám.</b> Ghi đúng nội dung chuyển khoản để phòng khám nhận ra ca của bạn.</p>
-    <p class="small muted">Chuyển khoản xong, bạn để trang này mở. Khi phòng khám xác nhận đã nhận tiền, trang sẽ tự báo và bạn nhận tin nhắn Zalo. Khung giờ được giữ riêng cho bạn trong 30 phút.</p>
+    <p class="small"><b>Thanh toán trước 100% để xác nhận lịch hẹn.</b> Ghi đúng nội dung chuyển khoản để bên mình nhận ra ca của bạn.</p>
+    <p class="small muted">Chuyển khoản xong, bạn để trang này mở. Khi bên mình xác nhận đã nhận tiền, trang sẽ tự báo và bạn nhận tin nhắn Zalo. Khung giờ được giữ riêng cho bạn trong 30 phút.</p>
     <div class="row"><button class="btn quiet sm" id="copy-memo" type="button">Sao chép nội dung chuyển khoản</button><button class="btn quiet sm" id="copy-acc" type="button">Sao chép số tài khoản</button></div>
   </div>
 
   <div class="panel" id="done-panel" hidden>
-    <div class="alert ok"><h3>Đã xác nhận lịch khám</h3><p id="done-text"></p></div>
+    <div class="alert ok"><h3>Đã xác nhận lịch hẹn</h3><p id="done-text"></p></div>
     <p class="small muted">Bác sĩ gọi video qua Zalo đúng giờ hẹn. Bạn chuẩn bị một góc riêng, yên tĩnh. Đổi lịch miễn phí 1 lần nếu báo trước 24 giờ.</p>
     <div class="row"><a class="btn quiet" href="../">Về trang chủ</a></div>
   </div>
@@ -97,13 +97,13 @@
 
   <div class="panel" id="crisis-panel" hidden>
     <div class="alert crisis">
-      <h3>Bạn không phải chờ đến lịch khám</h3>
+      <h3>Bạn không phải chờ đến lịch hẹn</h3>
       <p>Cảm ơn bạn đã nói thật. Nếu bạn đang gặp nguy hiểm, hãy gọi ngay:</p>
       <p class="hotline">Cấp cứu 115</p>
       <p class="hotline">Đường dây nóng Ngày Mai 096 306 1414</p>
-      <p>Hãy ở cạnh một người bạn tin tưởng. Lịch khám của bạn vẫn được giữ, và bác sĩ sẽ được báo để liên hệ với bạn sớm hơn.</p>
+      <p>Hãy ở cạnh một người bạn tin tưởng. Lịch hẹn của bạn vẫn được giữ, và bác sĩ sẽ được báo để liên hệ với bạn sớm hơn.</p>
     </div>
-    <div class="row"><button class="btn" id="crisis-continue" type="button">Tiếp tục giữ lịch khám</button></div>
+    <div class="row"><button class="btn" id="crisis-continue" type="button">Tiếp tục giữ lịch hẹn</button></div>
   </div>
 </main>
 
@@ -206,12 +206,12 @@
     const { data } = await T.db.rpc('booking_status', { p_code: cur.code });
     if (data === 'paid') {
       clearInterval(pollH);
-      $('done-text').textContent = `Hẹn bạn lúc ${vnTime(cur.start_at)}, ${vnDay(cur.start_at)}. Mã khám ${cur.code}.`;
+      $('done-text').textContent = `Hẹn bạn lúc ${vnTime(cur.start_at)}, ${vnDay(cur.start_at)}. Mã hẹn ${cur.code}.`;
       show('done-panel'); cur = null; return;
     }
     if (data === 'expired' || data === 'cancelled') {
       clearInterval(pollH);
-      $('lost-text').textContent = `Khung giờ đã được mở lại cho người khác. Nếu bạn đã chuyển khoản, đừng lo: nhắn Zalo cho phòng khám kèm mã ${cur.code}, phòng khám sẽ xếp giờ khác hoặc hoàn tiền.`;
+      $('lost-text').textContent = `Khung giờ đã được mở lại cho người khác. Nếu bạn đã chuyển khoản, đừng lo: nhắn Zalo cho Tâm Trí kèm mã ${cur.code}, bên mình sẽ xếp giờ khác hoặc hoàn tiền.`;
       show('lost-panel'); cur = null; load();
     }
   }

@@ -55,7 +55,7 @@
         <button type="button" data-f="all" aria-pressed="false">Tất cả</button>
       </div>
       <div class="table-wrap"><table class="stack">
-        <thead><tr><th>Giờ khám</th><th>Khách</th><th>Mã · Tiền</th><th>Trạng thái</th><th></th></tr></thead>
+        <thead><tr><th>Giờ hẹn</th><th>Khách</th><th>Mã · Tiền</th><th>Trạng thái</th><th></th></tr></thead>
         <tbody id="rows"></tbody>
       </table></div>
       <p class="small muted" id="admin-hint">Đối chiếu sao kê VIB theo nội dung "THU HO TAMTRI + mã", đúng số tiền rồi mới bấm "Đã nhận tiền".</p>
@@ -69,7 +69,7 @@
       <form id="slot-form" novalidate>
         <div class="grid2">
           <label>Ngày<input type="date" id="s-date"></label>
-          <label>Loại khám<select id="s-kind"></select></label>
+          <label>Loại buổi<select id="s-kind"></select></label>
           <label>Giá (đồng)<input type="number" id="s-price" step="10000" min="0"></label>
         </div>
         <label>Các giờ bắt đầu, cách nhau bằng dấu phẩy<input type="text" id="s-times" placeholder="19:00, 20:00, 21:00"></label>
@@ -151,7 +151,7 @@
     const waiting = bookings.filter(b => b.status === 'held').length;
     const crisis = bookings.filter(b => b.status === 'crisis' || (b.urgent && (b.status === 'held' || b.status === 'paid') && slotMap[b.slot_id] && new Date(slotMap[b.slot_id].start_at).getTime() > Date.now())).length;
     const rev = paid.filter(b => b.paid_at && vnDate(b.paid_at).slice(0, 7) === month).reduce((a, b) => a + b.price, 0);
-    $('stats').innerHTML = `<div class="stat"><b>${todayCount}</b><span>Ca khám hôm nay</span></div><div class="stat"><b>${waiting}</b><span>Đang chờ tiền</span></div><div class="stat ${crisis ? 'warn' : ''}"><b>${crisis}</b><span>Cờ đỏ cần gọi</span></div>` +
+    $('stats').innerHTML = `<div class="stat"><b>${todayCount}</b><span>Ca hôm nay</span></div><div class="stat"><b>${waiting}</b><span>Đang chờ tiền</span></div><div class="stat ${crisis ? 'warn' : ''}"><b>${crisis}</b><span>Cờ đỏ cần gọi</span></div>` +
       (role === 'admin' ? `<div class="stat"><b class="num">${money(rev)}</b><span>Đã thu tháng này</span></div>` : '');
   }
 
