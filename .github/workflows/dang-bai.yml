@@ -1,0 +1,38 @@
+# Mỗi sáng 7:00 giờ Việt Nam: xuất bản bài web đến ngày, rồi đăng lên Fanpage (nếu đã cài token).
+name: Đăng bài tự động
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  push:
+    branches: [main]
+    paths: ['noi-dung/bai-viet/**']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: dang-bai
+jobs:
+  dang:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Dựng lại mục Bài viết
+        run: node scripts/build-blog.mjs
+      - name: Lưu và đẩy lên web
+        run: |
+          git config user.name "tamtri-bot"
+          git config user.email "tamtri-bot@users.noreply.github.com"
+          git add bai-viet sitemap.xml noi-dung/da-xuat-ban.json
+          git diff --cached --quiet || { git commit -m "Xuất bản bài viết $(date -u +%F)"; git push; }
+      - name: Đăng Facebook
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+        run: node scripts/dang-facebook.mjs
+      - name: Ghi lại bài đã đăng Facebook
+        if: always()
+        run: |
+          git add noi-dung/da-dang-facebook.json 2>/dev/null || true
+          git diff --cached --quiet || { git commit -m "Ghi nhận bài đã đăng Facebook"; git pull --rebase; git push; }

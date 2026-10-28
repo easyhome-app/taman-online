@@ -34,3 +34,10 @@ Kéo cả thư mục (giữ nguyên các thư mục con) lên GitHub, Vercel t�
 - Trang chính sách quyền riêng tư.
 - Xác nhận của bệnh viện về việc ghi tên "Bệnh viện Đại học Y Hà Nội".
 - Hợp đồng thu hộ với phòng khám có giấy phép khám từ xa.
+
+## Bài viết (blog chuẩn SEO) và đăng Facebook tự động
+- Mỗi bài là 1 file Markdown trong `noi-dung/bai-viet/`. Phần đầu có `title`, `description`, `slug`, `date`, `keywords`. Sau dòng `<!-- facebook -->` là nội dung đăng Fanpage (không hiện trên web).
+- Chạy `node scripts/build-blog.mjs` để dựng `bai-viet/`, `sitemap.xml`. Bài có `date` sau hôm nay sẽ tự lên web vào sáng ngày đó.
+- Workflow `.github/workflows/dang-bai.yml` chạy 7:00 sáng mỗi ngày (giờ VN) và mỗi khi có bài mới: xuất bản bài đến ngày, rồi đăng lên Fanpage.
+- Để đăng Facebook tự động: vào GitHub → repo → Settings → Secrets and variables → Actions, thêm `FB_PAGE_ID` và `FB_PAGE_TOKEN` (Page access token dài hạn, quyền `pages_manage_posts`). Chưa thêm thì web vẫn đăng bình thường, chỉ bỏ qua Facebook.
+- Sau khi web có bài: khai báo `https://tamtri.shopyte.vn/sitemap.xml` trong Google Search Console.
