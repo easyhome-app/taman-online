@@ -3,7 +3,7 @@
 ## Cấu trúc
 - `index.html`: trang chính.
 - `dat-lich/`: trang khách chọn giờ, giữ chỗ 30 phút, thanh toán trước 100% qua VIB.
-- `quan-ly/`: trang đăng nhập cho quản lý và bác sĩ (tamtri.vn/quan-ly/).
+- `quan-ly/`: trang đăng nhập cho quản lý và bác sĩ (tamtri.shopyte.vn/quan-ly/).
 - `assets/config.js`: nơi điền Project URL và khóa publishable của Supabase. Đây là file duy nhất cần sửa.
 - `supabase/schema.sql`: tạo cơ sở dữ liệu (chạy 1 lần).
 - `supabase/cap-quyen.sql`: cấp quyền quản lý và bác sĩ cho 2 email.
@@ -28,7 +28,7 @@
 - Khách giữ chỗ quá 30 phút mà chưa được xác nhận thì người khác có thể đặt khung đó. Nếu khách đã chuyển khoản muộn, anh vẫn bấm "Đã nhận tiền" được, miễn khung chưa bán cho người khác.
 
 ## Đưa lên Vercel
-Đẩy lên nhánh main của GitHub, Vercel tự cập nhật. Tên miền chính: tamtri.vn (mua ở iNET, bản ghi A và CNAME theo Vercel → Settings → Domains). tamtri.shopyte.vn chuyển hướng 308 về tamtri.vn.
+Kéo cả thư mục (giữ nguyên các thư mục con) lên GitHub, Vercel tự cập nhật. Tên miền: thêm tamtri.shopyte.vn ở Vercel → Settings → Domains, chép bản ghi A và CNAME sang Cloudflare, để đám mây xám (DNS only).
 
 ## Còn thiếu trước khi chạy quảng cáo
 - Trang chính sách quyền riêng tư.
@@ -40,4 +40,4 @@
 - Chạy `node scripts/build-blog.mjs` để dựng `bai-viet/`, `sitemap.xml`. Bài có `date` sau hôm nay sẽ tự lên web vào sáng ngày đó.
 - Workflow `.github/workflows/dang-bai.yml` chạy 7:00 sáng mỗi ngày (giờ VN) và mỗi khi có bài mới: xuất bản bài đến ngày, rồi đăng lên Fanpage.
 - Để đăng Facebook tự động: vào GitHub → repo → Settings → Secrets and variables → Actions, thêm `FB_PAGE_ID` và `FB_PAGE_TOKEN` (Page access token dài hạn, quyền `pages_manage_posts`). Chưa thêm thì web vẫn đăng bình thường, chỉ bỏ qua Facebook.
-- Sau khi web có bài: khai báo `https://tamtri.vn/sitemap.xml` trong Google Search Console.
+- Sau khi web có bài: khai báo `https://tamtri.shopyte.vn/sitemap.xml` trong Google Search Console.

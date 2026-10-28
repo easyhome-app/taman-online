@@ -7,7 +7,7 @@ import path from 'node:path';
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const SRC = path.join(ROOT, 'noi-dung', 'bai-viet');
 const OUT = path.join(ROOT, 'bai-viet');
-const SITE = 'https://tamtri.vn';
+const SITE = 'https://tamtri.shopyte.vn';
 const FB_MARK = '<!-- facebook -->';
 
 const todayVN = new Date(Date.now() + 7 * 3600e3).toISOString().slice(0, 10);
