@@ -17,21 +17,14 @@
     <span class="small muted">Đặt lịch trò chuyện</span>
   </div>
 </div>
-<div class="sos">
-  <div class="wrap">
-    <strong>Cần giúp ngay?</strong>
-    <span>Cấp cứu <b class="num">115</b> · Đường dây nóng Ngày Mai <b class="num">096 306 1414</b></span>
-    <span class="muted">Website này không dành cho tình huống khẩn cấp.</span>
-  </div>
-</div>
 
 <main class="wrap">
   <div class="panel">
     <div class="doctor">
       <img class="avatar" src="../bac-si-thu-hang-vuong.jpg" alt="" width="64" height="64" style="object-fit:cover">
       <div style="display:grid;gap:4px;min-width:0">
-        <h1>Trò chuyện cùng bác sĩ về sức khỏe tinh thần</h1>
-        <p class="muted">ThS. BS. Nguyễn Thị Thu Hằng, chuyên khoa Tâm thần, Bác sĩ nội trú ĐH Y Hà Nội</p>
+        <h1 class="page-title">Đặt lịch trò chuyện cùng bác sĩ</h1>
+        <p class="muted">ThS. BS. Nguyễn Thị Thu Hằng, Bác sĩ nội trú Tâm thần, ĐH Y Hà Nội</p>
       </div>
     </div>
     <div class="prices" id="price-chips"></div>
@@ -47,6 +40,7 @@
     <div class="days" id="days"></div>
     <div class="slots" id="slots"><p class="muted">Đang tải lịch…</p></div>
     <p class="small muted">Giờ Việt Nam. Không nhận đặt khung bắt đầu trong vòng 1 giờ tới.</p>
+    <p class="calm-sos">Nếu bạn đang gặp nguy hiểm và cần người ngay lúc này, hãy gọi <a href="tel:115">Cấp cứu 115</a> hoặc <a href="tel:0963061414">Ngày Mai 096 306 1414</a>.</p>
   </div>
 
   <div class="panel" id="form-panel" hidden>
@@ -67,21 +61,23 @@
         <div class="yn"><span>Bạn có đang dùng rượu, chất kích thích để chịu đựng không?</span><span class="opts"><label><input type="radio" name="q3" value="1">Có</label><label><input type="radio" name="q3" value="0">Không</label></span></div>
       </fieldset>
       <label class="check"><input type="checkbox" id="f-consent">Tôi đồng ý để Tâm Trí xử lý thông tin sức khỏe của tôi nhằm đặt lịch và để bác sĩ tư vấn.</label>
-      <p class="small" id="form-error" style="color:var(--danger)" hidden></p>
-      <p class="small muted">Bước tiếp theo: chuyển khoản bằng mã QR. Khung giờ được giữ riêng cho bạn 30 phút.</p>
+      <ul class="errlist" id="form-error" role="alert" hidden></ul>
+      <p class="small muted">Bước tiếp theo: chuyển khoản bằng mã QR. Bạn có 30 phút để chuyển, không cần vội.</p>
       <div class="row"><button class="btn" type="submit" id="f-submit">Giữ chỗ và thanh toán</button><button class="btn quiet" type="button" id="f-cancel">Chọn khung khác</button></div>
     </form>
   </div>
 
   <div class="panel" id="pay-panel" hidden>
-    <div class="row between"><h2>Thanh toán để giữ khung</h2><div class="countdown" id="countdown">30:00</div></div>
+    <h2>Thanh toán để giữ khung</h2>
+    <p class="hold-note" id="hold-note"></p>
+    <div class="code-box"><span class="small muted">Mã hẹn của bạn</span><b id="pay-code"></b><span class="small muted">Bạn nên chụp màn hình trang này để giữ lại mã hẹn và thông tin chuyển khoản.</span></div>
     <div class="pay">
       <div style="display:grid;gap:6px;justify-items:start"><img class="qr" id="qr" width="180" height="180" alt="Mã QR chuyển khoản VIB"><span class="small muted">Quét bằng app ngân hàng, số tiền và nội dung tự điền.</span></div>
       <dl class="kv" id="pay-info"></dl>
     </div>
-    <p class="small"><b>Thanh toán trước 100% để xác nhận lịch hẹn.</b> Ghi đúng nội dung chuyển khoản để bên mình nhận ra ca của bạn.</p>
-    <p class="small muted">Chuyển khoản xong, bạn để trang này mở. Khi bên mình xác nhận đã nhận tiền, trang sẽ tự báo và bạn nhận tin nhắn Zalo. Khung giờ được giữ riêng cho bạn trong 30 phút.</p>
-    <div class="row"><button class="btn quiet sm" id="copy-memo" type="button">Sao chép nội dung chuyển khoản</button><button class="btn quiet sm" id="copy-acc" type="button">Sao chép số tài khoản</button></div>
+    <p class="small muted">Tài khoản đứng tên người quản lý lịch hẹn của Tâm Trí. Nội dung chuyển khoản có mã hẹn để bên mình nhận đúng ca của bạn.</p>
+    <p class="small"><b>Thanh toán trước 100% để xác nhận lịch hẹn.</b> Chuyển khoản xong, bạn cứ để trang này mở. Khi bên mình nhận được tiền, trang sẽ tự báo và bạn nhận tin nhắn Zalo.</p>
+    <div class="copy-row"><button class="btn quiet sm" id="copy-memo" type="button">Chép nội dung CK</button><button class="btn quiet sm" id="copy-acc" type="button">Chép số tài khoản</button></div>
   </div>
 
   <div class="panel" id="done-panel" hidden>
@@ -112,7 +108,7 @@
 <script src="../assets/common.js"></script>
 <script>
 (function () {
-  const { $, esc, money, pad, vnDate, vnTime, vnDay } = T;
+  const { $, esc, money, vnDate, vnTime, vnDay } = T;
   const C = window.TAMTRI;
   let slots = [], selDay = null, selSlot = null, cur = null, pollH = null;
 
@@ -167,16 +163,32 @@
   }
   $('f-cancel').onclick = () => { selSlot = null; show(null); render(); };
 
-  function formError(msg) { $('form-error').textContent = msg; $('form-error').hidden = false; $('form-error').scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  function clearMarks() {
+    document.querySelectorAll('#book-form [aria-invalid]').forEach(el => el.removeAttribute('aria-invalid'));
+    document.querySelectorAll('#book-form .invalid').forEach(el => el.classList.remove('invalid'));
+  }
+  function formError(msgs) {
+    $('form-error').innerHTML = [].concat(msgs).map(m => `<li>${esc(m)}</li>`).join('');
+    $('form-error').hidden = false;
+    const first = document.querySelector('#book-form [aria-invalid="true"], #book-form .invalid') || $('form-error');
+    first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  $('book-form').addEventListener('input', e => { e.target.removeAttribute('aria-invalid'); const yn = e.target.closest('.yn, .check'); if (yn) yn.classList.remove('invalid'); });
 
   $('book-form').addEventListener('submit', async e => {
     e.preventDefault();
     const q = n => { const v = document.querySelector(`input[name=q${n}]:checked`); return v ? Number(v.value) : null; };
     const f = { name: $('f-name').value.trim(), yob: Number($('f-yob').value), phone: $('f-phone').value.replace(/[\s.]+/g, ''), reason: $('f-reason').value.trim(), screen: [q(1), q(2), q(3)] };
-    const err = f.name.length < 2 ? 'Bạn chưa nhập họ tên.' : !/^(\+?84|0)\d{8,10}$/.test(f.phone) ? 'Số điện thoại Zalo chưa đúng.' : !f.yob ? 'Bạn chưa nhập năm sinh.'
-      : f.yob > new Date().getFullYear() - 18 ? 'Dịch vụ dành cho người từ 18 tuổi. Người dưới 18 tuổi cần người giám hộ đặt giúp.'
-      : f.screen.includes(null) ? 'Bạn chưa trả lời đủ 3 câu hỏi an toàn.' : !$('f-consent').checked ? 'Bạn cần đồng ý với việc xử lý thông tin để đặt lịch.' : '';
-    if (err) return formError(err);
+    clearMarks(); $('form-error').hidden = true;
+    const errs = [], bad = id => $(id).setAttribute('aria-invalid', 'true');
+    if (f.name.length < 2) { errs.push('Bạn chưa nhập họ tên.'); bad('f-name'); }
+    if (!f.yob) { errs.push('Bạn chưa nhập năm sinh.'); bad('f-yob'); }
+    else if (f.yob > new Date().getFullYear() - 18) { errs.push('Dịch vụ dành cho người từ 18 tuổi. Người dưới 18 tuổi cần người giám hộ đặt giúp.'); bad('f-yob'); }
+    if (!/^(\+?84|0)\d{8,10}$/.test(f.phone)) { errs.push('Số điện thoại Zalo chưa đúng, ví dụ 0901234567.'); bad('f-phone'); }
+    [1, 2, 3].forEach(n => { if (q(n) === null) document.querySelector(`input[name=q${n}]`).closest('.yn').classList.add('invalid'); });
+    if (f.screen.includes(null)) errs.push('Bạn chưa trả lời đủ 3 câu hỏi an toàn (các câu tô đỏ).');
+    if (!$('f-consent').checked) { errs.push('Bạn cần tích ô đồng ý ở cuối để đặt lịch.'); $('f-consent').closest('.check').classList.add('invalid'); }
+    if (errs.length) return formError(errs);
     $('f-submit').disabled = true; $('f-submit').textContent = 'Đang giữ chỗ…';
     const { data, error } = await T.db.rpc('book_slot', { p_slot: selSlot, p_name: f.name, p_yob: f.yob, p_phone: f.phone, p_reason: f.reason || null, p_screen: f.screen });
     $('f-submit').disabled = false; $('f-submit').textContent = 'Giữ chỗ và thanh toán';
@@ -191,14 +203,10 @@
     const memo = C.bank.memoPrefix + ' ' + cur.code;
     $('pay-info').innerHTML = `<dt>Khung</dt><dd>${esc(vnDay(cur.start_at))}, ${vnTime(cur.start_at)}</dd><dt>Dịch vụ</dt><dd>${esc(T.kindLabel(cur.kind))}</dd><dt>Số tiền</dt><dd>${money(cur.price)}</dd><dt>Ngân hàng</dt><dd>${esc(C.bank.name)}</dd><dt>Số tài khoản</dt><dd>${esc(C.bank.account)}</dd><dt>Chủ tài khoản</dt><dd>${esc(C.bank.holder)}</dd><dt>Nội dung CK</dt><dd><b>${esc(memo)}</b></dd>`;
     $('qr').src = T.qrUrl(cur.price, memo);
-    show('pay-panel'); tick();
+    $('pay-code').textContent = cur.code;
+    $('hold-note').textContent = `Khung giờ được giữ riêng cho bạn đến ${vnTime(cur.hold_until)}.`;
+    show('pay-panel');
     clearInterval(pollH); pollH = setInterval(poll, 8000);
-  }
-
-  function tick() {
-    if (!cur || $('pay-panel').hidden) return;
-    const left = Math.max(0, new Date(cur.hold_until).getTime() - Date.now());
-    $('countdown').textContent = pad(Math.floor(left / 60000)) + ':' + pad(Math.floor(left / 1000) % 60);
   }
 
   async function poll() {
@@ -206,7 +214,7 @@
     const { data } = await T.db.rpc('booking_status', { p_code: cur.code });
     if (data === 'paid') {
       clearInterval(pollH);
-      $('done-text').textContent = `Hẹn bạn lúc ${vnTime(cur.start_at)}, ${vnDay(cur.start_at)}. Mã hẹn ${cur.code}.`;
+      $('done-text').textContent = `Hẹn bạn lúc ${vnTime(cur.start_at)}, ${vnDay(cur.start_at)}. Mã hẹn ${cur.code}. Bạn chụp màn hình lại để tiện đối chiếu nhé.`;
       show('done-panel'); cur = null; return;
     }
     if (data === 'expired' || data === 'cancelled') {
@@ -227,7 +235,6 @@
   $('lost-back').onclick = () => { show(null); load(); };
 
   load();
-  setInterval(tick, 1000);
   setInterval(() => { if (!$('pick-panel').hidden && $('form-panel').hidden) load(); }, 30000);
 })();
 </script>
