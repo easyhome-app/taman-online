@@ -31,7 +31,7 @@ Bạn không cần đợi đến khi "chịu hết nổi". Hãy cân nhắc nói
 ## Buổi tư vấn diễn ra thế nào?
 
 1. Bạn chọn giờ trống trên trang đặt lịch và chuyển khoản giữ chỗ.
-2. Đến giờ, bác sĩ gọi video Zalo cho bạn. Buổi đầu dài 45 phút.
+2. Đến giờ, bác sĩ gọi video Zalo cho bạn.
 3. Bạn kể điều đang làm mình khó chịu. Bác sĩ hỏi thêm về giấc ngủ, tâm trạng, việc học và sinh hoạt.
 4. Bác sĩ cùng bạn hiểu rõ vấn đề và gợi ý những bước hỗ trợ phù hợp với bạn.
 
@@ -49,7 +49,7 @@ Không. Tâm Trí hoạt động hoàn toàn online qua video Zalo, nên sinh vi
 
 ### Chi phí một buổi là bao nhiêu?
 
-Buổi đầu 45 phút có giá 350.000 đồng. Các buổi sau ngắn hơn, 25 phút, giá 200.000 đồng. Bạn xem giờ trống và đặt lịch ngay trên trang web.
+Buổi đầu tiên có giá 350.000 đồng, các buổi tiếp theo 200.000 đồng. Bạn xem giờ trống và đặt lịch ngay trên trang web.
 
 ### Nếu mình đang ở trong tình huống nguy hiểm thì sao?
 
