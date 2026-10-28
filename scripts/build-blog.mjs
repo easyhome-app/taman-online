@@ -147,7 +147,7 @@ ${toc.length > 2 ? `    <nav class="toc" aria-label="Mục lục"><b>Trong bài 
 ${html}
     <div class="sos" role="note"><b>Nếu bạn đang nghĩ đến việc làm hại bản thân, đừng chờ.</b> Gọi Cấp cứu 115 hoặc Đường dây nóng Ngày Mai 096 306 1414, hoặc nhờ một người bạn tin tưởng ở cạnh bạn.</div>
     <div class="nudge"><p>Muốn nói chuyện với bác sĩ về điều bạn đang trải qua? Buổi tư vấn diễn ra qua video Zalo, 45 phút, ngay tại phòng của bạn.</p><a class="btn" href="../../dat-lich/">Xem lịch còn trống</a></div>
-    <div class="author"><img src="../../bac-si-thu-hang.jpg" alt="" width="56" height="56"><p>Tâm Trí Online là nơi bạn nói chuyện online về sức khỏe tinh thần với ThS. BS. Nguyễn Thị Thu Hằng, chuyên khoa Tâm thần, Bác sĩ nội trú ĐH Y Hà Nội.</p></div>
+    <div class="author"><img src="../../bac-si-thu-hang-vuong.jpg" alt="" width="56" height="56"><p>Tâm Trí Online là nơi bạn nói chuyện online về sức khỏe tinh thần với ThS. BSNT Nguyễn Thị Thu Hằng, Bác sĩ nội trú Tâm thần ĐH Y Hà Nội, từng nội trú tại Viện Sức khỏe Tâm thần Quốc gia, BV Bạch Mai.</p></div>
     <p class="disclaimer">Bài viết mang tính tham khảo, không thay thế cho lời tư vấn trực tiếp của bác sĩ.</p>
 ${related.length ? `    <section class="related"><h2>Bài viết khác</h2><div class="list">${related.map(card).join('')}</div></section>` : ''}
   </article>
