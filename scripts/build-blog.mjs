@@ -90,8 +90,8 @@ const NAV = (rel) => `<nav class="nav" aria-label="Điều hướng">
 
 const FOOT = `<footer>
   <div class="wrap">
-    <p><b>Tâm Trí Online</b> · Khám sức khỏe tinh thần online cho người trẻ.</p>
-    <p>Thông tin trên trang không thay thế cho việc thăm khám trực tiếp với bác sĩ.</p>
+    <p><b>Tâm Trí Online</b> · Nói chuyện cùng bác sĩ về sức khỏe tinh thần, online, cho người trẻ.</p>
+    <p>Thông tin trên trang không thay thế cho lời khuyên trực tiếp của bác sĩ.</p>
   </div>
 </footer>`;
 
@@ -146,9 +146,9 @@ ${NAV('../../')}
 ${toc.length > 2 ? `    <nav class="toc" aria-label="Mục lục"><b>Trong bài này</b><ol>${toc.map((t) => `<li><a href="#${t.id}">${esc(t.text)}</a></li>`).join('')}</ol></nav>` : ''}
 ${html}
     <div class="sos" role="note"><b>Nếu bạn đang nghĩ đến việc làm hại bản thân, đừng chờ.</b> Gọi Cấp cứu 115 hoặc Đường dây nóng Ngày Mai 096 306 1414, hoặc nhờ một người bạn tin tưởng ở cạnh bạn.</div>
-    <div class="nudge"><p>Muốn nói chuyện với bác sĩ về điều bạn đang trải qua? Buổi khám diễn ra qua video Zalo, 45 phút, ngay tại phòng của bạn.</p><a class="btn" href="../../dat-lich/">Xem lịch còn trống</a></div>
-    <div class="author"><img src="../../bac-si-thu-hang.jpg" alt="" width="56" height="56"><p>Tâm Trí Online là dịch vụ khám sức khỏe tinh thần online với ThS. BS. Nguyễn Thị Thu Hằng, chuyên khoa Tâm thần, Bác sĩ nội trú ĐH Y Hà Nội.</p></div>
-    <p class="disclaimer">Bài viết mang tính tham khảo, không thay thế cho chẩn đoán và điều trị của bác sĩ.</p>
+    <div class="nudge"><p>Muốn nói chuyện với bác sĩ về điều bạn đang trải qua? Buổi tư vấn diễn ra qua video Zalo, 45 phút, ngay tại phòng của bạn.</p><a class="btn" href="../../dat-lich/">Xem lịch còn trống</a></div>
+    <div class="author"><img src="../../bac-si-thu-hang.jpg" alt="" width="56" height="56"><p>Tâm Trí Online là nơi bạn nói chuyện online về sức khỏe tinh thần với ThS. BS. Nguyễn Thị Thu Hằng, chuyên khoa Tâm thần, Bác sĩ nội trú ĐH Y Hà Nội.</p></div>
+    <p class="disclaimer">Bài viết mang tính tham khảo, không thay thế cho lời tư vấn trực tiếp của bác sĩ.</p>
 ${related.length ? `    <section class="related"><h2>Bài viết khác</h2><div class="list">${related.map(card).join('')}</div></section>` : ''}
   </article>
 </main>
@@ -162,7 +162,7 @@ const card = (p) => `<a class="card" href="${SITE}/bai-viet/${p.slug}/"><h2>${es
 
 function indexPage(all) {
   const url = `${SITE}/bai-viet/`;
-  const description = 'Bài viết về giấc ngủ, lo âu, trầm cảm và sức khỏe tinh thần cho người trẻ, viết dễ hiểu, kèm dấu hiệu khi nào nên đi khám.';
+  const description = 'Bài viết về giấc ngủ, lo âu, trầm cảm và sức khỏe tinh thần cho người trẻ, viết dễ hiểu, kèm dấu hiệu khi nào nên nói chuyện với bác sĩ.';
   const jsonld = [{ '@context': 'https://schema.org', '@type': 'Blog', name: 'Bài viết Tâm Trí Online', url, inLanguage: 'vi',
     blogPost: all.map((p) => ({ '@type': 'BlogPosting', headline: p.title, url: `${SITE}/bai-viet/${p.slug}/`, datePublished: p.date })) }];
   return `${HEAD({ title: 'Bài viết về sức khỏe tinh thần cho người trẻ | Tâm Trí Online', description, url, image: `${SITE}/bac-si-thu-hang.jpg`, type: 'website', rel: '../', jsonld })}
@@ -194,6 +194,12 @@ ${urls.map((u) => `  <url><loc>${u.loc}</loc>${u.lastmod ? `<lastmod>${u.lastmod
 }
 
 const posts = fs.readdirSync(SRC).filter((f) => f.endsWith('.md')).map((f) => parse(path.join(SRC, f)));
+// Bác sĩ dặn: không dùng từ ngữ khám, chữa, điều trị trên web và Fanpage. Dùng "nói chuyện cùng bác sĩ", "tư vấn", "hỗ trợ".
+const BANNED = /khám|chữa|điều trị|chẩn đoán|kê đơn/i;
+for (const p of posts) for (const k of ['title', 'description', 'keywords', 'body', 'facebook']) {
+  const m = String(p[k] || '').match(BANNED);
+  if (m) throw new Error(`${path.basename(p.file)}: mục "${k}" có từ "${m[0]}", hãy đổi sang "nói chuyện cùng bác sĩ", "tư vấn" hoặc "hỗ trợ"`);
+}
 const slugs = new Set();
 for (const p of posts) { if (slugs.has(p.slug)) throw new Error(`Trùng slug: ${p.slug}`); slugs.add(p.slug); }
 const live = posts.filter((p) => p.date <= todayVN).sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug));
