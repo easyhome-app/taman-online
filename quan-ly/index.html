@@ -69,18 +69,25 @@
       <h2>Mở khung giờ</h2>
       <form id="slot-form" novalidate>
         <div class="grid2">
-          <label>Ngày<input type="date" id="s-date"></label>
+          <label>Bắt đầu từ ngày<input type="date" id="s-date"></label>
           <label>Loại buổi<select id="s-kind"></select></label>
           <label>Giá (đồng)<input type="number" id="s-price" step="10000" min="0"></label>
         </div>
         <label>Các giờ bắt đầu, cách nhau bằng dấu phẩy<input type="text" id="s-times" placeholder="19:00, 20:00, 21:00"></label>
-        <label class="check"><input type="checkbox" id="s-week">Lặp lại cùng giờ cho 7 ngày liên tiếp kể từ ngày đã chọn</label>
+        <div class="wk-pick">
+          <span class="small">Các thứ trong tuần (bỏ trống nếu chỉ mở đúng ngày đã chọn)</span>
+          <div class="wk" id="s-wd">
+            <label><input type="checkbox" value="1">T2</label><label><input type="checkbox" value="2">T3</label><label><input type="checkbox" value="3">T4</label><label><input type="checkbox" value="4">T5</label><label><input type="checkbox" value="5">T6</label><label><input type="checkbox" value="6">T7</label><label><input type="checkbox" value="0">CN</label>
+          </div>
+          <label>Lặp lại trong<select id="s-weeks"><option value="1">1 tuần</option><option value="2">2 tuần</option><option value="4" selected>4 tuần</option><option value="8">8 tuần</option></select></label>
+        </div>
+        <p class="small muted" id="s-preview"></p>
         <p class="small" id="s-error" style="color:var(--danger)" hidden></p>
         <div class="row"><button class="btn" type="submit" id="s-submit">Mở khung</button></div>
       </form>
     </div>
     <div class="panel">
-      <h2>Khung giờ 3 tuần tới</h2>
+      <h2>Khung giờ sắp tới</h2>
       <div class="table-wrap"><table class="stack">
         <thead><tr><th>Ngày</th><th>Giờ</th><th>Loại · Giá</th><th>Trạng thái</th><th></th></tr></thead>
         <tbody id="slot-rows"></tbody>
@@ -166,7 +173,7 @@
 
   async function loadAll() {
     const since = new Date(Date.now() - 60 * 864e5).toISOString();
-    const until = new Date(Date.now() + 21 * 864e5).toISOString();
+    const until = new Date(Date.now() + 63 * 864e5).toISOString();
     const [b, s] = await Promise.all([
       db.from('bookings').select('*').gte('created_at', since).order('created_at', { ascending: false }),
       db.from('slots').select('*').gte('start_at', new Date(Date.now() - 60 * 864e5).toISOString()).lte('start_at', until).order('start_at')
@@ -226,6 +233,26 @@
   $('s-kind').onchange = setPrice; setPrice();
   $('s-date').value = vnDate(new Date(Date.now() + 864e5));
 
+  // Ngày được mở: chỉ ngày đã chọn, hoặc các thứ đã tích trong số tuần đã chọn
+  function pickDays() {
+    if (!$('s-date').value) return [];
+    const start = new Date($('s-date').value + 'T12:00:00+07:00').getTime();
+    const wds = [...document.querySelectorAll('#s-wd input:checked')].map(x => Number(x.value));
+    if (!wds.length) return [$('s-date').value];
+    const out = [];
+    for (let i = 0; i < Number($('s-weeks').value) * 7; i++) {
+      const t = new Date(start + i * 864e5);
+      if (wds.includes(t.getUTCDay())) out.push(vnDate(t));
+    }
+    return out;
+  }
+  function preview() {
+    const d = pickDays();
+    $('s-preview').textContent = d.length ? `Sẽ mở ${d.length} ngày: ${d.slice(0, 6).map(x => x.slice(8) + '/' + x.slice(5, 7)).join(', ')}${d.length > 6 ? '…' : ''}` : '';
+  }
+  ['s-date', 's-weeks'].forEach(id => $(id).addEventListener('change', preview));
+  $('s-wd').addEventListener('change', preview); preview();
+
   $('slot-form').addEventListener('submit', async e => {
     e.preventDefault(); $('s-error').hidden = true;
     const times = $('s-times').value.split(/[,;\s]+/).map(t => t.trim().replace(/h$/i, ':00').replace(/h/i, ':').replace(/^(\d{1,2})$/, '$1:00')).filter(Boolean)
@@ -233,11 +260,8 @@
     const bad = times.find(t => !/^([01]\d|2[0-3]):[0-5]\d$/.test(t));
     if (!$('s-date').value || !times.length || bad) { $('s-error').textContent = bad ? `Giờ "${bad}" chưa đúng, ví dụ 19:00.` : 'Bạn chọn ngày và nhập ít nhất một giờ.'; $('s-error').hidden = false; return; }
     const kind = $('s-kind').value, dur = C.kinds[kind].dur, price = Number($('s-price').value) || C.kinds[kind].price;
-    const days = $('s-week').checked ? 7 : 1, rows = [];
-    for (let i = 0; i < days; i++) {
-      const d = vnDate(new Date(new Date($('s-date').value + 'T12:00:00+07:00').getTime() + i * 864e5));
-      times.forEach(t => { const iso = T.vnToIso(d, t); if (new Date(iso).getTime() > Date.now()) rows.push({ start_at: iso, dur, kind, price }); });
-    }
+    const rows = [];
+    pickDays().forEach(d => times.forEach(t => { const iso = T.vnToIso(d, t); if (new Date(iso).getTime() > Date.now()) rows.push({ start_at: iso, dur, kind, price }); }));
     if (!rows.length) { $('s-error').textContent = 'Các giờ này đã qua.'; $('s-error').hidden = false; return; }
     $('s-submit').disabled = true;
     const { data, error } = await db.from('slots').upsert(rows, { onConflict: 'start_at', ignoreDuplicates: true }).select('id');

@@ -191,3 +191,8 @@ input[type=date], input[type=password] { border: 1px solid var(--line); border-r
   table.stack td.num { text-align: left; }
 }
 .slots > p { grid-column: 1 / -1; }
+.wk-pick { display: grid; gap: 8px; }
+.wk { display: flex; flex-wrap: wrap; gap: 6px; }
+.wk label { display: flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font-weight: 500; cursor: pointer; background: var(--surface); }
+.wk label:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.wk input { width: 18px; height: 18px; margin: 0; accent-color: var(--accent); }
