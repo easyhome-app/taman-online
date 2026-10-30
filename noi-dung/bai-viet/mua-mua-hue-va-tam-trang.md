@@ -41,7 +41,7 @@ Không phải lúc nào cũng vậy. Thấy uể oải vài hôm khi trời mưa
 
 ### Sinh viên Huế có thể nói chuyện với bác sĩ mà không cần ra ngoài trời mưa không?
 
-Có. Tâm Trí tư vấn qua video Zalo, bạn ngồi tại phòng trọ, có khung giờ buổi tối và Chủ nhật.
+Có. Tâm Trí tư vấn qua video Zalo, bạn ngồi tại phòng trọ, có buổi tối thứ Ba, thứ Năm, thứ Bảy.
 
 ## Nguồn tham khảo
 

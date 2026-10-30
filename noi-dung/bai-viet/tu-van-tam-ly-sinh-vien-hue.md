@@ -1,6 +1,6 @@
 ---
 title: Tư vấn tâm lý online cho sinh viên Huế: nói chuyện cùng bác sĩ ngay tại phòng trọ
-description: Sinh viên ở Huế đang mất ngủ, lo âu, buồn chán kéo dài nhưng ngại tìm đến ai? Tâm Trí giúp bạn nói chuyện riêng với bác sĩ qua video Zalo, buổi tối và cuối tuần, không cần ra khỏi phòng.
+description: Sinh viên ở Huế đang mất ngủ, lo âu, buồn chán kéo dài nhưng ngại tìm đến ai? Tâm Trí giúp bạn nói chuyện riêng với bác sĩ qua video Zalo vào buổi tối, không cần ra khỏi phòng.
 slug: tu-van-tam-ly-sinh-vien-hue
 date: 2026-10-28
 keywords: tư vấn tâm lý Huế, tư vấn tâm lý sinh viên Huế, bác sĩ tâm lý Huế, tư vấn tâm lý online Huế, sinh viên Đại học Huế
@@ -24,7 +24,7 @@ Bạn không cần đợi đến khi "chịu hết nổi". Hãy cân nhắc nói
 ## Vì sao chọn nói chuyện online thay vì đi lại?
 
 - **Riêng tư:** bạn ngồi ngay tại phòng trọ, không lo gặp người quen ở hành lang hay phòng chờ.
-- **Hợp lịch sinh viên:** có khung giờ buổi tối và Chủ nhật, không phải xin nghỉ học hay nghỉ ca làm thêm.
+- **Hợp lịch sinh viên:** có buổi tối thứ Ba, thứ Năm, thứ Bảy, không phải xin nghỉ học hay nghỉ ca làm thêm.
 - **Không phụ thuộc thời tiết:** mùa mưa ở Huế kéo dài, đường ngập, việc đi lại vất vả hơn. Buổi tư vấn qua video Zalo chỉ cần điện thoại và tai nghe.
 - **Bảo mật:** nếu bạn từ 18 tuổi trở lên, gia đình, nhà trường hay nơi làm thêm không được báo, trừ khi bạn có nguy cơ gặp nguy hiểm.
 
@@ -61,7 +61,7 @@ Sinh viên Huế ơi, có ai đang thấy mệt mà không biết kể với ai 
 Xa nhà, phòng trọ một mình, mùa mưa dài, thi cử, tiền trọ, làm thêm... Nhiều bạn mất ngủ cả tuần, buồn mà không rõ vì sao, rồi tự nhủ "chắc tại mình lười".
 
 Ở Tâm Trí, bạn có thể nói chuyện riêng với bác sĩ qua video Zalo:
-🌙 Có khung giờ buổi tối và Chủ nhật
+🌙 Buổi tối thứ Ba, thứ Năm, thứ Bảy
 🏠 Ngồi ngay tại phòng trọ, không lo gặp người quen
 🔒 Từ 18 tuổi trở lên, gia đình và nhà trường không được báo
 

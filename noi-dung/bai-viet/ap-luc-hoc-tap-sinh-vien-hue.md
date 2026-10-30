@@ -43,7 +43,7 @@ Có. Một chút lo lắng giúp bạn tập trung hơn. Điều cần để ý 
 
 ### Sinh viên Huế có thể nói chuyện với bác sĩ vào buổi tối không?
 
-Có. Tâm Trí có khung giờ buổi tối và Chủ nhật, nói chuyện qua video Zalo ngay tại phòng trọ, không phải xin nghỉ học.
+Có. Tâm Trí có buổi tối thứ Ba, thứ Năm, thứ Bảy, nói chuyện qua video Zalo ngay tại phòng trọ, không phải xin nghỉ học.
 
 <!-- facebook -->
 Mùa thi đến, sinh viên Huế có đang "cháy" không? 📚
