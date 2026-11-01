@@ -44,16 +44,18 @@ Mỗi người một khác. Nhiều bạn thấy đỡ sau vài tuần đến v�
 Nhiều bạn thấy nói chuyện qua video tại phòng mình dễ mở lòng hơn. Bạn có thể bắt đầu từ những điều nhỏ, bác sĩ sẽ đi cùng bạn theo nhịp của bạn.
 
 <!-- facebook -->
-Năm nhất ở Huế, có ai đang nhớ nhà đến mức không muốn ra khỏi phòng không? 🏡
+Tháng đầu ở Huế, T. đăng ảnh sông Hương mỗi ngày. Tháng thứ hai, T. không ra khỏi phòng trọ suốt một cuối tuần.
 
-Không còn bữa cơm gia đình, bạn mới chưa thân, tối về phòng trọ một mình, mở mạng lên thấy ai cũng vui. Cảm giác lạc lõng đó rất bình thường, và phần lớn sẽ đỡ dần.
+Không ai biết. Bạn cùng lớp thấy T. vẫn đi học đều. Mẹ gọi thì T. nói "con ổn". Chỉ có tối về, căn phòng 12 mét vuông im đến mức nghe rõ tiếng mưa trên mái tôn.
 
-Vài cách giúp bạn thích nghi nhanh hơn:
-🗓️ Giữ giờ ngủ, giờ ăn, giờ học cố định
-🤝 Tham gia một câu lạc bộ, gặp nhau mỗi tuần
-🌿 Rủ bạn đi dạo bờ sông Hương
-📞 Hẹn giờ gọi về nhà, nhưng đừng chỉ sống trong điện thoại
+Khi nói chuyện cùng bác sĩ, T. hỏi: "Em có bị sao không, ai cũng vui mà?" Bác sĩ trả lời: nhớ nhà rõ nhất thường là tháng thứ hai, khi hết háo hức ban đầu. Rất nhiều bạn đi qua giai đoạn này, chỉ là không ai kể.
 
-Nếu sau một học kỳ vẫn thấy nặng nề, đừng chịu một mình. Đọc thêm 👇
+T. bắt đầu từ ba việc nhỏ:
+🗓️ Giữ giờ ăn, giờ ngủ cố định, kể cả cuối tuần
+🤝 Tham gia một câu lạc bộ gặp nhau mỗi tuần
+📞 Hẹn giờ gọi về nhà, và lần này nói thật với mẹ
 
+Quê bạn ở đâu? Bình luận xem có ai cùng quê đang ở Huế không nhé 👇
+
+Câu chuyện được gộp từ nhiều bạn trẻ và đã đổi chi tiết để giữ bí mật.
 #sinhvienhue #sinhviennamnhat #xanha #TamTriOnline

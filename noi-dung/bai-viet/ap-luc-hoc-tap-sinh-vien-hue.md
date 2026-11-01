@@ -46,16 +46,20 @@ Có. Một chút lo lắng giúp bạn tập trung hơn. Điều cần để ý 
 Có. Tâm Trí có buổi tối thứ Ba, thứ Năm, thứ Bảy, nói chuyện qua video Zalo ngay tại phòng trọ, không phải xin nghỉ học.
 
 <!-- facebook -->
-Mùa thi đến, sinh viên Huế có đang "cháy" không? 📚
+"Mình đọc một trang 5 lần mà vẫn không nhớ chữ nào."
 
-Đau đầu, mất ngủ, đọc mãi một trang không vào, trì hoãn đến sát hạn rồi thức trắng đêm... Đó là những dấu hiệu bạn đang quá tải, không phải vì bạn kém.
+Đó là câu đầu tiên L., sinh viên năm ba ở Huế, nói khi nói chuyện cùng bác sĩ. Còn 10 ngày nữa thi, L. thức đến 3 giờ sáng mỗi đêm, sáng ngồi vào bàn thì đầu trống rỗng. Càng không vào, L. càng tự trách: "Chắc mình kém thật."
 
-Vài cách nhỏ cho mùa thi:
-✏️ Viết hết việc ra giấy, chia thành từng bước 30 phút
-✅ Mỗi ngày chỉ chọn 3 việc quan trọng nhất
-😴 Ngủ đủ, vì thức trắng làm trí nhớ kém đi
-💬 Kể với một người bạn tin tưởng
+Bác sĩ không bảo L. cố thêm. Bác sĩ hỏi: "Tuần này em ngủ được bao nhiêu tiếng?" L. đếm, và giật mình: chưa tới 25 tiếng cho cả tuần.
 
-Bài viết đầy đủ về dấu hiệu quá tải và khi nào nên tìm người nói chuyện 👇
+L. không kém. L. đang quá tải.
 
+Ba việc L. làm trong 10 ngày sau đó:
+1️⃣ Viết hết việc ra giấy, mỗi ngày chỉ chọn 3 việc quan trọng nhất
+2️⃣ Học 25 phút, đứng dậy rời bàn 5 phút
+3️⃣ Tắt đèn trước 0 giờ, kể cả đêm trước hôm thi
+
+Bạn đang ở ngày thứ mấy của mùa thi? Bài viết đầy đủ về dấu hiệu quá tải và khi nào nên tìm người nói chuyện 👇
+
+Câu chuyện được gộp từ nhiều bạn trẻ và đã đổi chi tiết để giữ bí mật.
 #sinhvienhue #muathi #apluchoctap #TamTriOnline
