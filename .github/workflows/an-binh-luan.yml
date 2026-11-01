@@ -1,0 +1,22 @@
+# Mỗi giờ: tự ẩn bình luận rác (số điện thoại, link lạ, quảng cáo) trên các bài Fanpage 14 ngày gần nhất.
+name: Ẩn bình luận rác
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency: an-binh-luan
+jobs:
+  an:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Ẩn bình luận rác
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+        run: node scripts/an-binh-luan.mjs

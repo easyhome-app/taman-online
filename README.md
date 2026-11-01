@@ -40,4 +40,5 @@
 - Chạy `node scripts/build-blog.mjs` để dựng `bai-viet/`, `sitemap.xml`. Bài có `date` sau hôm nay sẽ tự lên web vào sáng ngày đó.
 - Workflow `.github/workflows/dang-bai.yml` chạy 7:00 sáng mỗi ngày (giờ VN) và mỗi khi có bài mới: xuất bản bài đến ngày, rồi đăng lên Fanpage.
 - Để đăng Facebook tự động: vào GitHub → repo → Settings → Secrets and variables → Actions, thêm `FB_PAGE_ID` và `FB_PAGE_TOKEN` (Page access token dài hạn, quyền `pages_manage_posts`). Chưa thêm thì web vẫn đăng bình thường, chỉ bỏ qua Facebook.
+- Workflow `.github/workflows/an-binh-luan.yml` chạy mỗi giờ: tự ẩn bình luận có số điện thoại, link lạ (trừ tamtri.vn), quảng cáo vay tiền, cờ bạc trên bài Fanpage 14 ngày gần nhất. Chỉ ẩn, không xoá, không trả lời. Token cần thêm quyền `pages_read_user_content` và `pages_manage_engagement`.
 - Sau khi web có bài: khai báo `https://tamtri.vn/sitemap.xml` trong Google Search Console.
